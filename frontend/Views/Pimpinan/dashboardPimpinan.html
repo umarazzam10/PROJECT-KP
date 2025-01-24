@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Cuti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="border-b border-gray-300">
+        <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+              <!-- Left Section: Logo -->
+              <div class="flex items-center">
+                <img src="/frontend/src/img/Logo PPSDM.png" alt="Logo BMKG" class="h-8 mr-4">
+                <h1 class="text-lg font-bold text-gray-900">PPSDM MKG</h1>
+              </div>
+        
+              <!-- Center Section: Navigation Links -->
+              <div class="hidden md:flex space-x-8">
+                <a href="#" class="text-green-400 font-medium">Dashboard</a>
+                <a href="#" class="text-gray-900 hover:text-green-400 font-medium">Permintaan</a>
+              </div>
+        
+              <!-- Right Section: Profile -->
+              <div class="flex items-center space-x-4">
+                <div class="flex flex-col text-right ">
+                  <span class="text-gray-500 text-sm">Hi, Muhammad Arif</span>
+                  <span class="text-green-300 text-sm font-medium">Pimpinan</span>
+                </div>
+                <img src="/frontend/src/img/profile.png" alt="Profile Picture" class="w-10 h-10 rounded-full border border-gray-300">
+              </div>
+            </div>
+         </div>
+    </div>
+    <div class="max-w-7xl mx-auto space-y-6 mt-6">
+        <!-- Header Section -->
+        <div class="grid grid-cols-1 sm:grid-cols-[1.5fr_4fr] gap-6">
+            <!-- Orange Frames -->
+            <div class="space-y-4">
+                <div class="bg-gradient-to-r from-orange-300 to-orange-600 p-6 rounded-xl shadow flex items-center space-x-4">
+                    <div class="bg-white rounded-full w-14 h-14 flex items-center justify-center">
+                        <img src="/frontend/src/img/note.png" alt="Icon" class="w-8 h-8">
+                    </div>
+                    <div>
+                        <div class="text-white text-3xl font-bold">10 Pegawai</div>
+                        <div class="text-white font-semibold">Melakukan Permintaan Cuti</div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-orange-300 to-orange-600 p-6 rounded-xl shadow flex items-center space-x-4">
+                    <div class="bg-white rounded-full w-14 h-14 flex items-center justify-center">
+                        <img src="/frontend/src/img/kontak.png" alt="Icon" class="w-8 h-8">
+                    </div>
+                    <div>
+                        <div class="text-white text-3xl font-bold">3 Pegawai</div>
+                        <div class="text-white font-semibold">Sedang Melakukan Cuti</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pegawai yang Sedang Cuti -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-lg font-bold text-gray-700 mb-4">Pegawai yang Sedang Cuti</h2>
+                <table class="w-full border-collapse border border-gray-200 text-left">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-200 px-4 py-2">No</th>
+                            <th class="border border-gray-200 px-4 py-2">Nama</th>
+                            <th class="border border-gray-200 px-4 py-2">Selesai Cuti</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Permintaan Cuti -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-gray-700">Permintaan Cuti</h2>
+                <select class="border border-gray-300 rounded p-2 text-gray-600">
+                    <option>Sebulan terakhir</option>
+                </select>
+            </div>
+            <table class="w-full border-collapse border border-gray-200 text-left">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="border border-gray-200 px-4 py-2">No</th>
+                        <th class="border border-gray-200 px-4 py-2">Tanggal Pengajuan</th>
+                        <th class="border border-gray-200 px-4 py-2">Nama</th>
+                        <th class="border border-gray-200 px-4 py-2">Alasan</th>
+                        <th class="border border-gray-200 px-4 py-2">Mulai Cuti</th>
+                        <th class="border border-gray-200 px-4 py-2">Selesai Cuti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="text-right mt-4">
+                <a href="#" class="text-orange-600 font-semibold">Lihat Semua</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
