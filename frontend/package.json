@@ -23,6 +23,7 @@
     "tailwindcss": "^3.4.17"
   },
   "dependencies": {
+    "ejs": "^3.1.10",
     "preline": "^2.7.0",
     "project-kp": "file:"
   }

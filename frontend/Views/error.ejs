@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Page | PPSDM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        .gradient-border {
+            background: linear-gradient(45deg, #3B82F6, #EC4899, #8B5CF6, #3B82F6);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .custom-shape {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-blue-900 to-blue-950 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <!-- Animated Background Particles -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div id="particles" class="absolute inset-0"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-2xl w-full relative">
+        <!-- Decorative Top Border -->
+        <div class="gradient-border h-2 w-full rounded-t-2xl"></div>
+
+        <!-- Content Container -->
+        <div class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl p-12 relative overflow-hidden">
+            <!-- Geometric Decorations -->
+            <div class="absolute top-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full -translate-x-16 -translate-y-16"></div>
+            <div class="absolute bottom-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full translate-x-16 translate-y-16"></div>
+
+            <!-- Error Icon -->
+            <div class="text-center mb-12 relative">
+                <div class="floating inline-block">
+                    <div class="relative">
+                        <div class="absolute inset-0 animate-ping bg-red-500/20 rounded-full"></div>
+                        <i class='bx bx-error-circle text-red-400 text-8xl'></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Content -->
+            <div class="text-center relative z-10">
+                <!-- Error Code -->
+                <h1 class="text-7xl font-bold mb-8 bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 text-transparent bg-clip-text">
+                    <%= error.status || 500 %>
+                </h1>
+
+                <!-- Custom Error Message -->
+                <% let errorMessage = 'Maaf, terjadi kesalahan pada sistem.'; %>
+                <% if (error.status === 404) { %>
+                    <% errorMessage = 'Halaman yang Anda cari tidak ditemukan.'; %>
+                <% } else if (error.status === 403) { %>
+                    <% errorMessage = 'Anda tidak memiliki izin untuk mengakses halaman ini.'; %>
+                <% } else if (error.status === 401) { %>
+                    <% errorMessage = 'Anda harus login untuk mengakses halaman ini.'; %>
+                <% } else if (error.status === 500) { %>
+                    <% errorMessage = 'Terjadi kesalahan internal pada server.'; %>
+                <% } %>
+
+                <p class="text-gray-200 text-xl mb-12 leading-relaxed font-light">
+                    <%= errorMessage %>
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <!-- Back Button -->
+                    <a href="/" class="group relative overflow-hidden inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                        <i class='bx bx-arrow-back mr-2 group-hover:-translate-x-1 transition-transform relative z-10'></i>
+                        <span class="relative z-10">Kembali ke Beranda</span>
+                    </a>
+
+                    <!-- Support Button -->
+                    <a href="mailto:support@ppsdm.com" class="group relative overflow-hidden inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/25">
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                        <i class='bx bx-envelope mr-2 group-hover:rotate-12 transition-transform relative z-10'></i>
+                        <span class="relative z-10">Hubungi Dukungan</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create and animate particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'absolute bg-white/10 rounded-full';
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particles.appendChild(particle);
+
+                gsap.to(particle, {
+                    x: 'random(-100, 100)',
+                    y: 'random(-100, 100)',
+                    duration: 'random(3, 6)',
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut'
+                });
+            }
+        }
+
+        // Page load animations
+        window.addEventListener('load', () => {
+            createParticles();
+
+            gsap.timeline()
+                .from('.max-w-2xl', {
+                    duration: 1,
+                    y: 50,
+                    opacity: 0,
+                    ease: 'power3.out'
+                })
+                .from('.gradient-border', {
+                    duration: 0.6,
+                    scaleX: 0,
+                    ease: 'power2.out'
+                }, '-=0.5')
+                .from('.bx-error-circle', {
+                    duration: 0.6,
+                    scale: 0,
+                    rotation: 180,
+                    ease: 'back.out(1.7)'
+                }, '-=0.3');
+        });
+    </script>
+</body>
+</html>

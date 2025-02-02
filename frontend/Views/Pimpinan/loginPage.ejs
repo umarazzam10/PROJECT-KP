@@ -16,14 +16,27 @@
             <div class="flex-1 p-28 flex flex-col justify-center space-y-4">
                 <h1 class="text-3xl font-bold text-gray-800">Login</h1>
                 <p class="text-gray-600">Silahkan masukkan email dan password anda</p>
-                <form class="space-y-4">
+
+                <% if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) { %>
+                    <div class="mb-4 text-sm text-red-600 bg-red-100 border border-red-400 p-3 rounded flex items-center">
+                        <i class='bx bx-error-circle mr-2'></i>
+                        <ul>
+                            <% errorMessages.forEach(function(message) { %>
+                                <li><%= message %></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                <% } %>
+                
+                <form class="space-y-4" action="/auth/process-login" method="POST">
                     <div>
+                        
                         <label for="nip" class="block text-sm font-medium text-gray-700">NIP</label>
-                        <input type="text" id="nip" class="mt-1 w-full p-3 border border-gray-300 rounded-lg" placeholder="Masukkan NIP Anda">
+                        <input type="text" id="nip" name="nip" class="mt-1 w-full p-3 border border-gray-300 rounded-lg" placeholder="Masukkan NIP Anda">
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" id="password" class="mt-1 w-full p-3 border border-gray-300 rounded-lg" placeholder="Masukkan Password Anda">
+                        <input type="password" name="password" id="password" class="mt-1 w-full p-3 border border-gray-300 rounded-lg" placeholder="Masukkan Password Anda">
                     </div>
                     <button type="submit" class="w-full bg-orange-400 text-white py-3 rounded-3xl hover:bg-orange-600 transition">Masuk</button>
                 </form>
@@ -36,15 +49,15 @@
                     <div class="swiper-wrapper">
                         <!-- Slide 1 -->
                         <div class="swiper-slide">
-                            <img src="/frontend/src/img/side right.png" alt="Slide 1" class="w-full h-auto rounded-lg shadow-md">
+                            <img src="/side_right.png" alt="Slide 1" class="w-full h-auto rounded-lg shadow-md">
                         </div>
                         <!-- Slide 2 -->
                         <div class="swiper-slide">
-                            <img src="/frontend/src/img/side right.png" alt="Slide 2" class="w-full h-auto rounded-lg shadow-md">
+                            <img src="/side_right.png" alt="Slide 2" class="w-full h-auto rounded-lg shadow-md">
                         </div>
                         <!-- Slide 3 -->
                         <div class="swiper-slide">
-                            <img src="/frontend/src/img/side right.png" alt="Slide 3" class="w-full h-auto rounded-lg shadow-md">
+                            <img src="/side_right.png" alt="Slide 3" class="w-full h-auto rounded-lg shadow-md">
                         </div>
                     </div>
                     <!-- Pagination (opsional) -->

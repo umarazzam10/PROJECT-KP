@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     tingkat_eselon: DataTypes.STRING,
     role: DataTypes.STRING
   }, {
-    tableName: 'Pegawai',
+    tableName: 'Pegawais',
     timestamps: false
   });
 
