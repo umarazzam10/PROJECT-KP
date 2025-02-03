@@ -1,36 +1,283 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Permintaan Cuti</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/preline/dist/preline.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="border-b border-gray-300">
-    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <!-- Left Section: Logo -->
-          <div class="flex items-center">
-            <img src="/frontend/src/img/Logo PPSDM.png" alt="Logo BMKG" class="h-8 mr-4">
-            <h1 class="text-lg font-bold text-gray-900">PPSDM MKG</h1>
-          </div>
-    
-          <!-- Center Section: Navigation Links -->
-          <div class="hidden md:flex space-x-8">
-            <a href="#" class="text-gray-900 hover:text-green-400 font-medium">Dashboard</a>
-            <a href="#" class="text-green-400 font-medium">Permintaan</a>
-          </div>
-    
-          <!-- Right Section: Profile -->
-          <div class="flex items-center space-x-4">
-            <div class="flex flex-col text-right ">
-              <span class="text-gray-500 text-sm">Hi, Muhammad Arif</span>
-              <span class="text-green-300 text-sm font-medium">Pimpinan</span>
+<body class="bg-gray-100">
+    <!-- Modal -->
+    <div id="confirmationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="text-center mb-6">
+                <h2 class="text-xl font-semibold mb-4">Apakah Anda menyetujui Permohonan Cuti</h2>
+                <p class="text-lg font-medium mb-2" id="modalEmployeeName"></p>
             </div>
-            <img src="/frontend/src/img/profile.png" alt="Profile Picture" class="w-10 h-10 rounded-full border border-gray-300">
-          </div>
+            <div class="flex justify-center space-x-4">
+                <button onclick="handleResponse('tolak')" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+                    Tolak
+                </button>
+                <button onclick="handleResponse('setuju')" class="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                    Setujui
+                </button>
+            </div>
         </div>
-     </div>
-</div>
+    </div>
+
+    <div class="border-b border-gray-300">
+        <!-- Header content remains the same -->
+        <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="/frontend/src/img/Logo PPSDM.png" alt="Logo BMKG" class="h-8 mr-4">
+                    <h1 class="text-lg font-bold text-gray-900">PPSDM MKG</h1>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-900 hover:text-green-400 font-medium">Dashboard</a>
+                    <a href="#" class="text-green-400 font-medium">Permintaan</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex flex-col text-right">
+                        <span class="text-gray-500 text-sm">Hi, Muhammad Arif</span>
+                        <span class="text-green-300 text-sm font-medium">Pimpinan</span>
+                    </div>
+                    <img src="/frontend/src/img/profile.png" alt="Profile Picture" class="w-10 h-10 rounded-full border border-gray-300">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="p-6 max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-semibold">Permintaan Cuti</h1>
+            <select class="border rounded px-3 py-2">
+                <option>Semua</option>
+                <option>Sebulan terakhir</option>
+            </select>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-2">No</th>
+                        <th class="border p-2">Tanggal Pengajuan</th>
+                        <th class="border p-2">Nama</th>
+                        <th class="border p-2">Alasan</th>
+                        <th class="border p-2">Tanggal Cuti</th>
+                        <th class="border p-2">Status</th>
+                        <th class="border p-2">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Data akan diisi melalui JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div class="flex justify-center mt-6 space-x-2" id="pagination">
+            <!-- Pagination akan diisi melalui JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const itemsPerPage = 10;
+        let currentPage = 1;
+        const modal = document.getElementById('confirmationModal');
+        const modalEmployeeName = document.getElementById('modalEmployeeName');
+        let selectedEmployee = "";
+        let selectedIndex = null;
+        
+        let data = [
+            { 
+                no: 1, 
+                tanggal: "2025-02-01", 
+                nama: "Andi Saputra", 
+                alasan: "Keperluan keluarga", 
+                cuti: "2025-02-05 - 2025-02-10",
+                status: null,
+                alasanPenolakan: null
+            },
+            { 
+                no: 2, 
+                tanggal: "2025-02-02", 
+                nama: "Rina Kusuma", 
+                alasan: "Sakit", 
+                cuti: "2025-02-06 - 2025-02-07",
+                status: null,
+                alasanPenolakan: null
+            },
+            { 
+                no: 3, 
+                tanggal: "2025-02-03", 
+                nama: "Budi Santoso", 
+                alasan: "Pernikahan saudara", 
+                cuti: "2025-02-08 - 2025-02-12",
+                status: null,
+                alasanPenolakan: null
+            }
+        ];
+    
+        function showModal(employeeName, index) {
+            selectedEmployee = employeeName;
+            selectedIndex = index;
+            modalEmployeeName.textContent = employeeName + ' ?';
+            modal.classList.remove('hidden');
+        }
+    
+        function hideModal() {
+            modal.classList.add('hidden');
+        }
+    
+        function handleResponse(response) {
+            if (response === 'setuju') {
+                showSecondConfirmation();
+            } else {
+                showRejectionPopup();
+            }
+        }
+    
+        function showSecondConfirmation() {
+            const secondModal = document.createElement('div');
+            secondModal.id = 'secondConfirmationModal';
+            secondModal.classList = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            secondModal.innerHTML = `
+                <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+                    <div class="text-center mb-6">
+                        <h2 class="text-xl font-semibold mb-4">Apakah Anda yakin menyetujui Permohonan Cuti ini?</h2>
+                    </div>
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="finalApprove()" class="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                            Iya
+                        </button>
+                        <button onclick="hideSecondModal()" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+                            Tidak
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(secondModal);
+        }
+    
+        function hideSecondModal() {
+            const secondModal = document.getElementById('secondConfirmationModal');
+            if (secondModal) {
+                secondModal.remove();
+            }
+        }
+    
+        function finalApprove() {
+            if (selectedIndex !== null) {
+                data[selectedIndex].status = 'disetujui';
+            }
+            hideSecondModal();
+            hideModal();
+            renderTable();
+        }
+    
+        function showRejectionPopup() {
+            const rejectionModal = document.createElement('div');
+            rejectionModal.id = 'rejectionModal';
+            rejectionModal.classList = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            rejectionModal.innerHTML = `
+                <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+                    <div class="text-center mb-6">
+                        <h2 class="text-xl font-semibold mb-4">Masukkan alasan menolak cuti untuk <b>${selectedEmployee}</b></h2>
+                        <textarea id="rejectionReason" class="w-full p-2 border rounded" placeholder="Masukkan Alasan Cuti"></textarea>
+                    </div>
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="submitRejection()" class="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Submit</button>
+                        <button onclick="hideRejectionPopup()" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Batal</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(rejectionModal);
+        }
+    
+        function hideRejectionPopup() {
+            const rejectionModal = document.getElementById('rejectionModal');
+            if (rejectionModal) {
+                rejectionModal.remove();
+            }
+        }
+    
+        function submitRejection() {
+            const reason = document.getElementById("rejectionReason").value;
+            if (selectedIndex !== null) {
+                data[selectedIndex].status = 'ditolak';
+                data[selectedIndex].alasanPenolakan = reason;
+            }
+            hideRejectionPopup();
+            hideModal();
+            renderTable();
+        }
+    
+        function renderTable() {
+            const tableBody = document.getElementById("table-body");
+            tableBody.innerHTML = "";
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedItems = data.slice(start, end);
+    
+            paginatedItems.forEach((item, index) => {
+                const statusCell = item.status ? 
+                    `<td class='border p-2'>
+                        <span class="px-2 py-1 rounded ${item.status === 'disetujui' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${item.status === 'disetujui' ? 'Disetujui' : 'Ditolak'}
+                        </span>
+                    </td>` :
+                    '<td class="border p-2">Menunggu</td>';
+
+                const actionButton = item.status ? 
+                    `<td class='border p-2'>
+                        <span class="px-3 py-1 ${item.status === 'disetujui' ? 'bg-green-500' : 'bg-red-500'} text-white rounded">
+                            ${item.status === 'disetujui' ? 'Disetujui' : 'Ditolak'}
+                        </span>
+                    </td>` :
+                    `<td class='border p-2'>
+                        <button onclick="showModal('${item.nama}', ${start + index})" class='px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600'>
+                            Tanggapi
+                        </button>
+                    </td>`;
+
+                const row = `<tr class='text-center'>
+                    <td class='border p-2'>${item.no}</td>
+                    <td class='border p-2'>${item.tanggal}</td>
+                    <td class='border p-2'>${item.nama}</td>
+                    <td class='border p-2'>${item.alasan}</td>
+                    <td class='border p-2'>${item.cuti}</td>
+                    ${statusCell}
+                    ${actionButton}
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+    
+        function renderPagination() {
+            const pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+    
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `<button class='px-4 py-2 ${currentPage === i ? "bg-yellow-500 text-white" : "text-gray-600 hover:bg-gray-300"} rounded' onclick='changePage(${i})'>${i}</button>`;
+            }
+        }
+    
+        function changePage(page) {
+            currentPage = page;
+            renderTable();
+            renderPagination();
+        }
+    
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                hideModal();
+            }
+        });
+    
+        renderTable();
+        renderPagination();
+    </script>
+    
 </body>
 </html>
