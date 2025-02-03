@@ -16,10 +16,12 @@ function beforeLogin(req, res, next) {
             req.userRole = decoded.role;
             req.userEmail = decoded.email;
 
-            if (req.userRole === "user") {
-                return res.status(200).json({ redirect: "/" });
-            } else if (req.userRole === "admin") {
-                return res.status(200).json({ redirect: "/admin/dashboard" });
+            if (req.userRole == "user") {
+                return res.redirect("/");
+            } else if (req.userRole == "tu") {
+                return res.redirect("/tu/dashboard");
+            } else if (req.userRole == "admin") {
+                return res.redirect("/admin/dashboard");
             }
         });
     } else {

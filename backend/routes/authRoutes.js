@@ -9,7 +9,7 @@ const { body } = require("express-validator");
 router.get("/login", beforeLogin, controller.form);
 router.post("/process-login", 
     [
-    body('email').isEmail().withMessage('Email tidak valid'),
+    body('nip').isLength({ min: 10 }).withMessage('NIP harus diisi'),
     body('password').isLength({ min: 6 }).withMessage('Password harus memiliki minimal 6 karakter')
     ],
     controller.cekLogin

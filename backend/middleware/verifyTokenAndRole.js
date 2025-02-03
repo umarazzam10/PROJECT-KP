@@ -5,8 +5,8 @@ function verifyTokenAndRoles(roles = []) {
         const token = req.cookies.token;
 
         if (!token) {
-            // return res.redirect("/auth/login");
-            res.json({ message: "Token not found" });
+            return res.redirect("/auth/login");
+            // res.json({ message: "Token not found" });
         }
 
         jwt.verify(token, "secretsecret", function (err, decoded) {
@@ -26,6 +26,8 @@ function verifyTokenAndRoles(roles = []) {
             if (roles.length && !roles.includes(req.userRole)) {
                 if (req.userRole === "user") {
                     return res.redirect("/");
+                } else if (req.userRole === "tu") {
+                    return res.redirect("/tu/dashboard");
                 } else if (req.userRole === "admin") {
                     return res.redirect("/admin/dashboard");
                 } else {
