@@ -30,9 +30,6 @@ module.exports = {
       jumlah_hak: {
         type: Sequelize.INTEGER
       },
-      sisa_cuti: {
-        type: Sequelize.INTEGER
-      },
       unit_kerja: {
         type: Sequelize.STRING
       },

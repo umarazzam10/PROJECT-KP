@@ -19,7 +19,8 @@ module.exports = {
         type: Sequelize.DATE
       },
       status: {
-        type: Sequelize.STRING
+        type: DataTypes.ENUM('diproses', 'disetujui', 'ditolak'),
+        defaultValue: 'diproses'
       },
       jenis_cuti: {
         type: Sequelize.STRING

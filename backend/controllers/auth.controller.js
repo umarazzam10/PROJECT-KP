@@ -2,37 +2,36 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
-const { User } = require("../models");
+const { Pegawai } = require("../models");
 
 const form = (req, res) => {
-    // return res.render("login", { errorMessages: [] });
-    res.json({ message: "This is login" });
+    return res.render("loginPage", { errorMessages: [] });
+    // res.json({ message: "This is login" });
 };
 
 const cekLogin = async (req, res) => {
-    const { email, password } = req.body;
+    const { nip, password } = req.body;
 
-    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const errorMessages = errors.array().map(error => error.msg);
-        // return res.render("login", { errorMessages });
-        res.json({ errorMessages });
+        return res.render("loginPage", { errorMessages });
+        // res.json({ errorMessages });
     }
 
     try {
-        const user = await User.findOne({ where: { email } });
+        const user = await Pegawai.findOne({ where: { nip } });
         if (!user) {
-            return res.render("login", { errorMessages: ["Email atau password tidak valid"] });
+            return res.render("loginPage", { errorMessages: ["Email atau password tidak valid"] });
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
-            return res.render("login", { errorMessages: ["Email atau password tidak valid"] });
+            return res.render("loginPage", { errorMessages: ["Email atau password tidak valid"] });
         }
 
         const token = jwt.sign(
-            { id: user.id, email: user.email, role: user.role },
+            { id: user.id, nip: user.nip, role: user.role },
             "secretsecret",
             { expiresIn: 86400 }
         );
@@ -40,18 +39,19 @@ const cekLogin = async (req, res) => {
         res.cookie("token", token, { httpOnly: true });
 
         
-        if (user.role == "mahasiswa") {
+        if (user.role == "user") {
             return res.redirect("/");
-        } else if (user.role == "dosen") {
-            return res.redirect("/dosen/dashboard");
+        } else if (user.role == "tu") {
+            return res.redirect("/tu/dashboard");
         } else if (user.role == "admin") {
             return res.redirect("/admin/dashboard");
         }
 
         res.status(200).send({ auth: true, token: token });
     } catch (err) {
-        console.error("Error during login: ", err);
-        res.status(500).json({ message: "Internal server error" });
+        // console.error("Error during login: ", err);
+        // res.status(500).json({ message: "Internal server error" });
+        return res.render("loginPage", { errorMessages: ["Internal server error"] });
     }
 };
 
@@ -88,11 +88,11 @@ const ubahPassword = async (req, res) => {
 const daftar = async (req, res) => { 
     try {
     console.log(req.body);
-    const { username, email, password, hp } = req.body;
+    const { name, nip, password, hp } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
-        username : username,
-        email: email,
+        name : name,
+        nip: nip,
         password: hashedPassword,
         hp:hp, 
     });

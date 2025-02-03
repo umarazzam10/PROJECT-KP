@@ -15,12 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     jabatan: DataTypes.STRING,
     satuan_organisasi: DataTypes.STRING,
     jumlah_hak: DataTypes.INTEGER,
-    sisa_cuti: DataTypes.INTEGER,
     unit_kerja: DataTypes.STRING,
     tingkat_eselon: DataTypes.STRING,
     role: DataTypes.STRING
   }, {
-    tableName: 'Pegawai',
+    tableName: 'Pegawais',
     timestamps: false
   });
 
