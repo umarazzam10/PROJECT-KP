@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Pegawai</title>
+    <link href="../src/output.css" rel="stylesheet">
+</head>
+<body class="font-poppins">
+  <header class="bg-white shadow">
+      <div class="border-b border-gray-100">
+          <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center h-16">
+                  <div class="flex items-center">
+                      <img src="/frontend/src/img/Logo PPSDM.png" alt="Logo BMKG" class="h-8 mr-4">
+                      <h1 class="text-3xl font-bold text-gray-900">PPSDM MKG</h1>
+                  </div>
+                  <div class="hidden md:flex space-x-8">
+                    <a href="ktu_dashboard.html" class="text-gray-900 font-medium text-base hover:text-teal-500">Dashboard</a>
+                    <a href="ktu_data pegawai.html" class="text-teal-500 font-medium text-base focus:outline-none" href="#" aria-current="page">Data Pegawai</a>
+                    <a href="ktu_pembatalan.html" class="text-gray-900 font-medium text-base hover:text-teal-500">Pembatalan</a>
+                    <a href="ktu_rekapan.html" class="text-gray-900 font-medium text-base hover:text-teal-500">Rekapan</a>
+                  </div>
+                  <div class="flex items-center space-x-4">
+                      <div class="flex flex-col text-right">
+                          <span class="text-base font-bold">Hi, Raffif Arif</span>
+                          <span class="text-teal-500 font-medium text-sm">KTU</span>
+                      </div>
+                      <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80" alt="Profile Picture" class="w-10 h-10 rounded-full border border-gray-300">
+                  </div>
+              </div>
+          </div>
+    </header>
+
+      <!-- Stats Cards -->
+    <div class="px-24 py-4">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center py-4">Tambah Pegawai</h2>
+      <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg">
+        <form action="#" method="POST">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nama Lengkap -->
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Nama Lengkap</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Masukkan Nama Lengkap">
+                </div>
+    
+                <!-- NIP -->
+                <div class="mb-4">
+                    <label for="nip" class="block text-gray-700">NIP</label>
+                    <input type="text" id="nip" name="nip" required class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Masukkan NIP">
+                </div>
+    
+                <!-- Jabatan -->
+                <div class="mb-4">
+                    <label for="position" class="block text-gray-700">Jabatan</label>
+                    <input type="text" id="position" name="position" required class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Masukkan Jabatan">
+                </div>
+    
+                <!-- Jumlah Hak Cuti -->
+                <div class="mb-4">
+                    <label for="total_leave" class="block text-gray-700">Jumlah Hak Cuti</label>
+                    <input type="number" id="total_leave" name="total_leave" required class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Masukkan Jumlah Hak Cuti">
+                </div>
+    
+                <!-- Sisa Cuti -->
+                <div class="mb-4">
+                    <label for="remaining_leave" class="block text-gray-700">Sisa Cuti</label>
+                    <input type="number" id="remaining_leave" name="remaining_leave" required class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Masukkan Sisa Cuti">
+                </div>
+    
+                <!-- Tanggal Masuk -->
+                <div class="mb-4">
+                    <label for="start_date" class="block text-gray-700">Tanggal Masuk</label>
+                    <input type="date" id="start_date" name="start_date" required class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+    
+                <!-- Foto Profil -->
+                <div data-hs-file-upload='{
+                  "url": "/upload",
+                  "extensions": {
+                    "default": {
+                      "class": "shrink-0 size-5"
+                    },
+                    "xls": {
+                      "class": "shrink-0 size-5"
+                    },
+                    "zip": {
+                      "class": "shrink-0 size-5"
+                    },
+                    "csv": {
+                      "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"m5 12-3 3 3 3\"/><path d=\"m9 18 3-3-3-3\"/></svg>",
+                      "class": "shrink-0 size-5"
+                    }
+                  }
+                }'>
+                  <template data-hs-file-upload-preview="">
+                    <div class="p-3 bg-white border border-solid border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600">
+                      <div class="mb-1 flex justify-between items-center">
+                        <div class="flex items-center gap-x-3">
+                          <span class="size-10 flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg dark:border-neutral-700 dark:text-neutral-500" data-hs-file-upload-file-icon="">
+                            <img class="rounded-lg hidden" data-dz-thumbnail="">
+                          </span>
+                          <div>
+                            <p class="text-sm font-medium text-gray-800 dark:text-white">
+                              <span class="truncate inline-block max-w-[300px] align-bottom" data-hs-file-upload-file-name=""></span>.<span data-hs-file-upload-file-ext=""></span>
+                            </p>
+                            <p class="text-xs text-gray-500 dark:text-neutral-500" data-hs-file-upload-file-size=""></p>
+                          </div>
+                        </div>
+                        <div class="flex items-center gap-x-2">
+                          <button type="button" class="text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-500 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-file-upload-remove="">
+                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M3 6h18"></path>
+                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                              <line x1="10" x2="10" y1="11" y2="17"></line>
+                              <line x1="14" x2="14" y1="11" y2="17"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                
+                      <div class="flex items-center gap-x-3 whitespace-nowrap">
+                        <div class="flex w-full h-2 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-hs-file-upload-progress-bar="">
+                          <div class="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition-all duration-500 hs-file-upload-complete:bg-green-500" style="width: 0" data-hs-file-upload-progress-bar-pane=""></div>
+                        </div>
+                        <div class="w-10 text-end">
+                          <span class="text-sm text-gray-800 dark:text-white">
+                            <span data-hs-file-upload-progress-bar-value="">0</span>%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                
+                  <div class="cursor-pointer p-12 flex justify-center bg-white border border-dashed border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600" data-hs-file-upload-trigger="">
+                    <div class="text-center">
+                      <span class="inline-flex justify-center items-center size-16 bg-gray-100 text-gray-800 rounded-full dark:bg-neutral-700 dark:text-neutral-200">
+                        <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="17 8 12 3 7 8"></polyline>
+                          <line x1="12" x2="12" y1="3" y2="15"></line>
+                        </svg>
+                      </span>
+                
+                      <div class="mt-4 flex flex-wrap justify-center text-sm leading-6 text-gray-600">
+                        <span class="pe-1 font-medium text-gray-800 dark:text-neutral-200">
+                          Drop your file here or
+                        </span>
+                        <span class="bg-white font-semibold text-blue-600 hover:text-blue-700 rounded-lg decoration-2 hover:underline focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 dark:bg-neutral-800 dark:text-blue-500 dark:hover:text-blue-600">browse</span>
+                      </div>
+                
+                      <p class="mt-1 text-xs text-gray-400 dark:text-neutral-400">
+                        Pick a file up to 2MB.
+                      </p>
+                    </div>
+                  </div>
+                
+                  <div class="mt-4 space-y-2 empty:mt-0" data-hs-file-upload-previews=""></div>
+                </div>
+            </div>
+    
+            <!-- Riwayat Cuti -->
+            <div class="mb-6 py-4">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Riwayat Cuti</h3>
+                <table class="min-w-full table-auto border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left text-base font-light text-gray-400 dark:text-neutral-500">Tanggal Pengajuan</th>
+                            <th class="px-4 py-2 text-left text-base font-light text-gray-400 dark:text-neutral-500">Tanggal Mulai Cuti</th>
+                            <th class="px-4 py-2 text-left text-base font-light text-gray-400 dark:text-neutral-500">Tanggal Selesai Cuti</th>
+                            <th class="px-4 py-2 text-center text-base font-light text-gray-400 dark:text-neutral-500">Jumlah Cuti</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Add initial row or dynamically generate rows if needed -->
+                        <tr>
+                            <td class="px-4 py-2">
+                                <input type="date" name="leave_request_date" class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            </td>
+                            <td class="px-4 py-2">
+                                <input type="date" name="leave_start_date" class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            </td>
+                            <td class="px-4 py-2">
+                                <input type="date" name="leave_end_date" class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            </td>
+                            <td class="px-4 py-2 text-center">
+                                <input type="number" name="leave_days" class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            </td>
+                        </tr>
+
+                        <tr>
+                          <td class="px-4 py-2">
+                              <input type="date" name="leave_request_date" class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                          </td>
+                          <td class="px-4 py-2">
+                              <input type="date" name="leave_start_date" class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                          </td>
+                          <td class="px-4 py-2">
+                              <input type="date" name="leave_end_date" class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                          </td>
+                          <td class="px-4 py-2 text-center">
+                              <input type="number" name="leave_days" class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                          </td>
+                          <td class="px-4 py-2 text-center">
+                            <!-- Hapus Button -->
+                            <button type="button" class="p-2 bg-red-500 rounded-lg text-white hover:bg-red-700 focus:outline-none focus:bg-teal-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                    <line x1="10" x2="10" y1="11" y2="17"></line>
+                                    <line x1="14" x2="14" y1="11" y2="17"></line>
+                                </svg>
+                            </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <div class="flex justify-end">
+                <button type="submit" class="bg-orange-400 text-white px-6 py-3 rounded-2xl hover:bg-orange-600">Simpan</button>
+            </div>
+        </form>
+      </div>
+    
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
+</body>
+</html>

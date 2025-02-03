@@ -1,6 +1,7 @@
 module.exports = {
   content: [
      './views/Pimpinan/*.{html,js}',
+     './views/KTU/*.{html,js}',
      './views/*.{html,js}',
       'node_modules/preline/dist/*.js',
   ],
