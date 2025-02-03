@@ -15,15 +15,27 @@ exports.getPermintaanCutiList = async (req, res, next) => {
       };
     }
 
+    const { status, search } = req.query;
+    
+    // Build where clause
+    const where = {};
+    if (status) {
+      where.status = status;
+    }
+
     // Get leave requests with employee data
     const permintaanCuti = await Permintaan_Cuti.findAll({
       include: [{
         model: Pegawai,
         attributes: ['nama', 'NIP'],
-        required: true
+        where: search ? {
+          [Op.or]: [
+            { nama: { [Op.like]: `%${search}%` } },
+            { NI: { [Op.like]: `%${search}%` } }
+          ]
+        } : undefined
       }],
-      where: dateFilter,
-      order: [['tanggal_mulai', 'DESC']]
+      order: [['createdAt', 'DESC']]
     });
 
     // Format the data to match the UI structure
@@ -118,5 +130,35 @@ exports.rejectpermintaanCuti = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.pengajuanCuti = async (req, res, next) => { 
+  try {
+    const { tanggal_mulai, tanggal_selesai, jenis_cuti, keterangan } = req.body;
+    const userId = req.userId;
+
+    if (!tanggal_mulai || !tanggal_selesai || !jenis_cuti) {
+      return res.status(400).json({ message: 'Semua field harus diisi kecuali keterangan.' });
+    }
+
+    if (new Date(tanggal_selesai) <= new Date(tanggal_mulai)) {
+      return res.status(400).json({ message: 'Tanggal selesai harus lebih besar dari tanggal mulai.' });
+    }
+
+    const newCuti = await Permintaan_Cuti.create({
+      NIP: userId,
+      tanggal_mulai,
+      tanggal_selesai,
+      jenis_cuti,
+      keterangan,
+    });
+
+    res.status(201).json({
+      message: 'Pengajuan cuti berhasil disimpan.',
+      data: newCuti,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan pengajuan cuti.' });
   }
 };
