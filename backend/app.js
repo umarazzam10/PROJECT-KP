@@ -10,12 +10,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../frontend/src/img')));
+app.use(express.static(path.join(__dirname, '../frontend/src')));
 app.use(express.static(path.join(__dirname, "/node_modules/preline/dist")));
 app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 app.set("views", [
     path.join(__dirname, "../frontend/Views/Pimpinan"),
+    path.join(__dirname, "../frontend/Views/Pegawai"),
     path.join(__dirname, "../frontend/Views/user"),
     path.join(__dirname, "../frontend/Views"),
 ]);

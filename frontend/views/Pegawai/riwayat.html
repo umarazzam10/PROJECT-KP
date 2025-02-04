@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Page</title>
+    <link href="../../src/output.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../../src/img/home.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="font-poppins bg-gray-50">
+
+<!-- Header -->
+<header class="bg-white shadow">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <img src="../../src/img/Logo PPSDM.png" alt="Logo BMKG" class="h-10">
+        <h1 class="text-lg font-bold text-gray-700">PPSDM BMKG</h1>
+      </div>
+      <div class="flex items-center gap-x-2">
+        <nav>
+          <ul class="flex space-x-2">
+            <li><a href="#home" class="text-gray-600 hover:text-green-500">Home</a></li>
+            <li><a href="#riwayat" class="text-gray-600 hover:text-green-500">Riwayat</a></li>
+            <div class="flex items-center space-x-4">
+                <div class="flex flex-col text-right">
+                    <span class="text-gray-500 text-sm">Hi, Slamet</span>
+                    <span class="text-green-500 text-sm font-medium">Pegawai</span>
+                </div>
+            </div>
+          </ul>
+        </nav>
+        <div class="relative">
+          
+          <!-- Profile Dropdown -->
+          <div class="hs-dropdown relative inline-flex [--auto-close:inside]">
+              <button id="profile-dropdown" type="button" class="hs-dropdown-toggle z-30">
+                <img src="/frontend/src/img/profile.png" alt="Profile Picture" class="w-10 h-10 rounded-full border border-gray-300">
+              </button>
+          
+              <!-- Adjusted Dropdown with Fixed Position -->
+              <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[12rem] bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700 fixed right-4 top-16 z-50">
+                <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#profile">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Profile
+                </a>
+                <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#logout">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Logout
+                </a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<body class="bg-gray-50">
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <!-- Header with right-aligned dropdown -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">
+                Riwayat Pengajuan Cuti
+            </h1>
+            
+            <!-- Filter Dropdown -->
+            <div class="relative">
+                <div class="flex items-center">
+                    <span class="mr-2 text-sm text-gray-600">Filter</span>
+                    <select class="py-2 px-4 pr-8 border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option>Sebulan terakhir</option>
+                        <option>3 Bulan terakhir</option>
+                        <option>6 Bulan terakhir</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="flex flex-col">
+            <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                    <div class="border rounded-lg overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Alasan</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mulai Cuti</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Selesai Cuti</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-100">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">1</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Mengurus orang tua sakit di kampung</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">15 Januari 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">20 Januari 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Proses
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                            <!-- Button to Open Modal -->
+                                    <a href="#" id="open-modal" class="bg-yellow-400 py-2 px-2 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-yellow-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>
+                                            <path d="m15 5 4 4"/>
+                                        </svg>
+                                    </a>
+
+                                    <!-- Modal Background -->
+                                    <div id="cuti-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 transition-opacity duration-300">
+                                        <div id="modal-content" class="bg-white rounded-xl shadow-lg max-w-lg w-full p-6 transform scale-95 opacity-0 transition-all duration-300">
+                                            <!-- Header -->
+                                            <div class="flex justify-between items-center">
+                                                <h2 class="text-2xl font-bold text-gray-800">Pengajuan Cuti Tahunan</h2>
+                                                <button id="close-modal" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+                                            </div>
+
+                                            <!-- Form -->
+                                            <form class="mt-5 space-y-4">
+                                                <!-- Alasan Cuti -->
+                                                <div>
+                                                    <label for="alasan" class="block text-sm font-medium text-gray-700">Alasan Cuti</label>
+                                                    <textarea id="alasan" class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-yellow-500 focus:border-yellow-500" rows="3" placeholder="Masukkan Alasan Cuti"></textarea>
+                                                </div>
+
+                                                <!-- Mulai Cuti -->
+                                                <div>
+                                                    <label for="mulai-cuti" class="block text-sm font-medium text-gray-700">Mulai Cuti</label>
+                                                    <input type="date" id="mulai-cuti" class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-yellow-500 focus:border-yellow-500">
+                                                </div>
+
+                                                <!-- Selesai Cuti -->
+                                                <div>
+                                                    <label for="selesai-cuti" class="block text-sm font-medium text-gray-700">Selesai Cuti</label>
+                                                    <input type="date" id="selesai-cuti" class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-yellow-500 focus:border-yellow-500">
+                                                </div>
+
+                                                <!-- Submit Button -->
+                                                <button type="submit" class="w-full py-3 bg-orange-500 text-white rounded-lg text-lg font-semibold hover:bg-yellow-500">Edit Pengajuan</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- JavaScript for Modal with Smooth Animation -->
+                                    <script>
+                                        const modal = document.getElementById('cuti-modal');
+                                        const modalContent = document.getElementById('modal-content');
+                                        const openModalBtn = document.getElementById('open-modal');
+                                        const closeModalBtn = document.getElementById('close-modal');
+
+                                        function openModal() {
+                                            modal.classList.remove('hidden');
+                                            setTimeout(() => {
+                                                modal.classList.add('opacity-100');
+                                                modalContent.classList.add('scale-100', 'opacity-100');
+                                            }, 10);
+                                        }
+
+                                        function closeModal() {
+                                            modal.classList.remove('opacity-100');
+                                            modalContent.classList.remove('scale-100', 'opacity-100');
+
+                                            setTimeout(() => {
+                                                modal.classList.add('hidden');
+                                            }, 300);
+                                        }
+
+                                        openModalBtn.addEventListener('click', (e) => {
+                                            e.preventDefault(); // Mencegah reload halaman
+                                            openModal();
+                                        });
+
+                                        closeModalBtn.addEventListener('click', closeModal);
+
+                                        // Close modal when clicking outside of it
+                                        modal.addEventListener('click', function (e) {
+                                            if (e.target === modal) {
+                                                closeModal();
+                                            }
+                                        });
+                                    </script>
+                                        
+                                    <!-- Button to Open Modal -->
+                                    <a href="#" id="open-pdf-modal" class="bg-[#1B6C89] py-2 px-2 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-[#155160]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                                        </svg>
+                                    </a>
+
+                                    <!-- Modal Background -->
+                                    <div id="pdf-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 transition-opacity duration-300">
+                                        <div id="pdf-modal-content" class="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-6 transform scale-95 opacity-0 transition-all duration-300">
+                                            <!-- Header -->
+                                            <div class="flex justify-between items-center mb-4">
+                                                <h2 class="text-2xl font-bold text-gray-800">Preview Dokumen</h2>
+                                                <button id="close-pdf-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                                            </div>
+
+                                            <!-- PDF Viewer -->
+                                            <iframe id="pdf-viewer" src="your-document.pdf" class="w-full h-[500px] border rounded-lg"></iframe>
+
+                                            <!-- Footer -->
+                                            <div class="mt-4 flex justify-end">
+                                                <button id="download-pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                                    Download PDF
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- JavaScript for Modal -->
+                                    <script>
+                                        const pdfModal = document.getElementById('pdf-modal');
+                                        const pdfModalContent = document.getElementById('pdf-modal-content');
+                                        const openPdfModalBtn = document.getElementById('open-pdf-modal');
+                                        const closePdfModalBtn = document.getElementById('close-pdf-modal');
+                                        const pdfViewer = document.getElementById('pdf-viewer');
+                                        const downloadPdfBtn = document.getElementById('download-pdf');
+
+                                        const pdfFileUrl = 'your-document.pdf'; // Ganti dengan URL atau path PDF
+
+                                        function openPdfModal() {
+                                            pdfViewer.src = pdfFileUrl; // Set file PDF
+                                            pdfModal.classList.remove('hidden');
+                                            setTimeout(() => {
+                                                pdfModal.classList.add('opacity-100');
+                                                pdfModalContent.classList.add('scale-100', 'opacity-100');
+                                            }, 10);
+                                        }
+
+                                        function closePdfModal() {
+                                            pdfModal.classList.remove('opacity-100');
+                                            pdfModalContent.classList.remove('scale-100', 'opacity-100');
+
+                                            setTimeout(() => {
+                                                pdfModal.classList.add('hidden');
+                                            }, 300);
+                                        }
+
+                                        openPdfModalBtn.addEventListener('click', (e) => {
+                                            e.preventDefault();
+                                            openPdfModal();
+                                        });
+
+                                        closePdfModalBtn.addEventListener('click', closePdfModal);
+
+                                        pdfModal.addEventListener('click', function (e) {
+                                            if (e.target === pdfModal) {
+                                                closePdfModal();
+                                            }
+                                        });
+
+                                        downloadPdfBtn.addEventListener('click', () => {
+                                            window.open(pdfFileUrl, '_blank');
+                                        });
+                                    </script>
+                                        
+                                        
+                                        <!-- Button to Open Modal -->
+                                        <a href="#" id="open-cancel-modal" class="bg-red-600 py-2 px-2 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-red-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M6 18 18 6M6 6l12 12"/>
+                                            </svg>
+                                        </a>
+
+                                        <!-- Modal Background -->
+                                        <div id="cancel-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 transition-opacity duration-300">
+                                            <div id="cancel-modal-content" class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-10 transform scale-95 opacity-0 transition-all duration-300">
+                                                <!-- Header -->
+                                                <div class="flex justify-between items-center mb-4">
+                                                    <button id="close-cancel-modal" class="text-gray-500 hover:text-gray-700 text-3xl">&larr;</button>
+                                                </div>
+
+                                                <!-- Title -->
+                                                <h3 class="text-3xl font-bold text-center text-black">Pembatalan Pengajuan Cuti Tahunan</h3>
+
+                                                <!-- Form -->
+                                                <form class="mt-6 space-y-6">
+                                                    <!-- Alasan Pembatalan -->
+                                                    <div>
+                                                        <label for="cancel-reason" class="block text-xl font-semibold text-gray-700">Alasan Pembatalan</label>
+                                                        <textarea id="cancel-reason" class="mt-3 w-full border border-gray-300 rounded-xl p-4 text-lg focus:ring-red-500 focus:border-red-500" rows="4" placeholder="Masukkan Alasan pembatalan cuti"></textarea>
+                                                    </div>
+
+                                                    <!-- Submit Button -->
+                                                    <button type="submit" class="w-full py-4 bg-red-600 text-white rounded-xl text-xl font-bold hover:bg-red-700">Ajukan Pembatalan</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- JavaScript for Modal with Smooth Animation -->
+                                        <script>
+                                            const cancelModal = document.getElementById('cancel-modal');
+                                            const cancelModalContent = document.getElementById('cancel-modal-content');
+                                            const openCancelModalBtn = document.getElementById('open-cancel-modal');
+                                            const closeCancelModalBtn = document.getElementById('close-cancel-modal');
+
+                                            function openCancelModal() {
+                                                cancelModal.classList.remove('hidden');
+                                                setTimeout(() => {
+                                                    cancelModal.classList.add('opacity-100');
+                                                    cancelModalContent.classList.add('scale-100', 'opacity-100');
+                                                }, 10);
+                                            }
+
+                                            function closeCancelModal() {
+                                                cancelModal.classList.remove('opacity-100');
+                                                cancelModalContent.classList.remove('scale-100', 'opacity-100');
+
+                                                setTimeout(() => {
+                                                    cancelModal.classList.add('hidden');
+                                                }, 300);
+                                            }
+
+                                            openCancelModalBtn.addEventListener('click', (e) => {
+                                                e.preventDefault(); // Mencegah reload halaman
+                                                openCancelModal();
+                                            });
+
+                                            closeCancelModalBtn.addEventListener('click', closeCancelModal);
+
+                                            // Close modal when clicking outside of it
+                                            cancelModal.addEventListener('click', function (e) {
+                                                if (e.target === cancelModal) {
+                                                    closeCancelModal();
+                                                }
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+<script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
+</body>
+</html>
