@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link href="../src/output.css" rel="stylesheet">
+</head>
+<body class="font-poppins">
+<!-- Header -->
+  <header class="bg-white shadow">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <img src="..\src\img\Logo PPSDM.png" alt="Logo BMKG" class="h-10">
+        <h1 class="text-xl font-bold text-gray-700">PPSDM MKG</h1>
+      </div>
+      <nav>
+        <ul class="flex space-x-6">
+          <li><a href="#home" class="text-gray-600 hover:text-teal-500" >Home</a></li>
+          <li><a href="#panduan" class="text-gray-600 hover:text-teal-500">Panduan</a></li>
+          <li><a href="#tentang" class="text-gray-600 hover:text-teal-500">Tentang</a></li>
+        </ul>
+      </nav>
+      <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border bg-orange-400 text-white hover:text-orange-400 hover:bg-white">
+        Login
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="bg-white-50 py-1">
+    <div class="container mx-auto px-6 flex flex-col lg:flex-row items-center">
+      <div class="lg:w-1/2">
+        <div class="flex items-center">
+          <p class="text-orange-400 text-sm uppercase mr-4">Kelola Hak Cuti Anda</p>
+          <hr class="border-t-2 border-orange-500 w-24">
+        </div>
+  
+        
+        <h2 class="text-5xl font-bold text-gray-800">Selamat Datang di Sistem
+          <span class="text-orange-400 text-5xl py-4"> Cuti Tahunan <br></span>
+          <span class="text-5xl font-bold text-gray-800">PPSDM MKG</span>
+        </h2>
+
+        <p class="mt-4 text-gray-600">
+          Sistem yang terintegrasi untuk semua peran. Kami hadir untuk mendukung pengelolaan cuti yang praktis dan transparan bagi PPSDM BMKG.
+        </p>
+        <button type="button" class="py-3 px-4 mt-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border bg-teal-500 text-white hover:bg-teal-600">
+          Ayo Masuk Sekarang
+        </button>
+      
+      </div>
+      <div class="lg:w-1/2 mt-8 lg:mt-0 ">
+        <div class="relative mt-8">
+          <img src="..\src\img\Hero.png" alt="Ilustrasi Sistem Cuti" class="rounded-lg ">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Panduan Section -->
+  <section id="panduan" class=" mx-auto flex items-center gap-12 px-6">
+    <div>
+      <img src="..\src\img\Hero2.png" alt="Guide" class="rounded-lg ">
+    </div>
+    <div>
+      <h3 class="text-2xl font-bold text-gray-900 mb-4">Panduan</h3>
+      <p class="text-gray-600 mt-2">
+        Berikut Panduan dalam mengajukan cuti tahunan pegawai:
+      </p>
+      <ul class="space-y-2">
+        <li class="flex items-start space-x-4 border p-4 rounded-lg shadow-lg w-auto">
+          <img src="..\src\img\Tick Square.png" alt="Centang" class="w-6 h-6">
+          <p class="text-base font-semibold text-gray-800 ">Periksa sisa jatah cuti tahunan yang masih tersedia</p>
+        </li>
+        <li class="flex items-start space-x-4 border p-4 rounded-lg shadow-lg w-auto">
+          <img src="..\src\img\Tick Square.png" alt="Centang" class="w-6 h-6">
+          <p class="text-base font-semibold text-gray-800 ">Isi formulir permohonan cuti minimal 2 minggu sebelum pelaksanaan</p>
+        </li>
+        <li class="flex items-start space-x-4 border p-4 rounded-lg shadow-lg w-auto">
+          <img src="..\src\img\Tick Square.png" alt="Centang" class="w-6 h-6">
+          <p class="text-base font-semibold text-gray-800 ">Setelah mendapat persetujuan, surat izin cuti akan diterbitkan.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Tentang Section -->
+
+    <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
+</body>
+</html>

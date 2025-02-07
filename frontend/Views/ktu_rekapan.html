@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pegawai</title>
+    <link href="../src/output.css" rel="stylesheet">
+</head>
+<body class="font-poppins">
+  <header class="bg-white shadow">
+      <div class="border-b border-gray-100">
+          <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center h-16">
+                  <div class="flex items-center">
+                      <img src="/frontend/src/img/Logo PPSDM.png" alt="Logo BMKG" class="h-8 mr-4">
+                      <h1 class="text-3xl font-bold text-gray-900">PPSDM MKG</h1>
+                  </div>
+                  <div class="hidden md:flex space-x-8">
+                    <a href="ktu_dashboard.html" class="text-gray-900 font-medium text-base hover:text-teal-500">Dashboard</a>
+                    <a href="ktu_data pegawai.html" class="text-gray-900 font-medium text-base hover:text-teal-500">Data Pegawai</a>
+                    <a href="ktu_pembatalan.html" class="text-gray-900 font-medium text-base hover:text-teal-500">Pembatalan</a>
+                    <a href="ktu_rekapan.html" class="text-teal-500 font-medium text-base focus:outline-none" href="#" aria-current="page">Rekapan</a>
+                  </div>
+                  <div class="flex items-center space-x-4">
+                      <div class="flex flex-col text-right">
+                          <span class="text-base font-bold">Hi, Raffif Arif</span>
+                          <span class="text-teal-500 font-medium text-sm">KTU</span>
+                      </div>
+                      <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80" alt="Profile Picture" class="w-10 h-10 rounded-full border border-gray-300">
+                  </div>
+              </div>
+          </div>
+    </header>
+
+      <!-- Stats Cards -->
+    <div class="px-24">
+      <!-- Tables -->
+      <div class="flex flex-col">
+          <div class="-m-1.5 overflow-x-auto">
+            <div class="p-1.5 min-w-full inline-block align-middle">
+              <h2 class="text-2xl font-semibold py-4 mt-8">Rekapan Cuti Pegawai</h2>
+              
+              <div class="flex justify-end mb-4 gap-4">
+                <div class="hs-dropdown [--strategy:absolute] [--flip:false] hs-dropdown-example relative inline-flex">
+                  <button id="hs-dropdown-example" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                    Bulan
+                    <svg class="hs-dropdown-open:rotate-180 size-4 text-gray-600 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                  </button>
+                
+                  <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 w-56 hidden z-10 mt-2 min-w-60 bg-white shadow-md rounded-lg p-2 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700" role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-example">
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Januari
+                    </a>
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Februari
+                    </a>
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Maret
+                    </a>
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      April
+                    </a>
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Mei
+                    </a>
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Juni
+                    </a>
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Juli
+                    </a>
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Agustus
+                    </a>                    
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      September
+                    </a>                    
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Oktober
+                    </a>
+                    </a>                    
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      November
+                    </a>
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                      Desember
+                    </a>
+                    
+                  </div>
+                </div>
+                <button class="bg-orange-400 text-white text-sm px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-orange-600" onclick="window.location.href='ktu_tambah_pegawai.html'">
+                  <img src="..\src\img\icon\download.png" alt="Icon"/>
+                  Download Rekapan
+                </button>
+              </div>
+
+              <div class="border rounded-lg overflow-hidden dark:border-neutral-700 mb-8">
+                <table class="min-w-full text-left border-collapse" style="table-layout: fixed;">
+                  <thead>
+                    <tr>
+                      <th class="px-4 py-3 text-start text-base font-light text-gray-400 dark:text-neutral-500">No</th>
+                      <th class="px-4 py-3 text-start text-base font-light text-gray-400 dark:text-neutral-500">Nama</th>
+                      <th class="px-4 py-3 text-start text-base font-light text-gray-400 dark:text-neutral-500">Mulai Cuti</th>
+                      <th class="px-4 py-3 text-start text-base font-light text-gray-400 dark:text-neutral-500 w-48">Selesai Cuti</th>
+                      <th class="px-4 py-3 text-start text-base font-light text-gray-400 dark:text-neutral-500 w-36">Lama Cuti</th>
+                      <th class="px-4 py-3 text-start text-base font-light text-gray-400 dark:text-neutral-500">Sisa Cuti</th>
+                      <th class="px-4 py-3 text-start text-base font-light text-gray-400 dark:text-neutral-500"> </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200">
+                    <tr class="border-b hover:bg-gray-50">
+                      <td class="px-6 py-4">1</td>
+                      <td class="px-6 py-4">Ahmad Dhani</td>
+                      <td class="px-6 py-4">15 Januari 2025</td>
+                      <td class="px-6 py-4">20 Januari 2025</td>
+                      <td class="px-6 py-4">5 Hari</td>
+                      <td class="px-6 py-4">8 Hari</td>
+                      <td class="px-6 py-4">
+                        <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10" aria-label="Next">
+                          <span href="ktu_detailPegawai.html" class="text-teal-500 hover:text-teal-700 no-underline font-semibold flex items-center gap-2 border-b border-teal-500">Selengkapnya</span>
+                          <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="m9 18 6-6-6-6"></path>
+                          </svg>
+                      </button>
+
+                      </td>
+                    </tr>
+                    <tr class="border-b hover:bg-gray-50">
+                      <td class="px-6 py-4">2</td>
+                      <td class="px-6 py-4">Elizabeth Wilson</td>
+                      <td class="px-6 py-4">12 Januari 2025</td>
+                      <td class="px-6 py-4">14 Januari 2025</td>
+                      <td class="px-6 py-4">2 Hari</td>
+                      <td class="px-6 py-4">11 Hari</td>
+                      <td class="px-6 py-4">
+                        <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10" aria-label="Next">
+                          <span href="ktu_dashboard.html" class="text-teal-500 hover:text-teal-700 no-underline font-semibold flex items-center gap-2 border-b border-teal-500">Selengkapnya</span>
+                          <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m9 18 6-6-6-6"></path>
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                    
+                    <tr class="border-b hover:bg-gray-50">
+                      <td class="px-6 py-4">3</td>
+                      <td class="px-6 py-4">Sukmawati Hardi</td>
+                      <td class="px-6 py-4">12 Januari 2025</td>
+                      <td class="px-6 py-4">14 Januari 2025</td>
+                      <td class="px-6 py-4">2 Hari</td>
+                      <td class="px-6 py-4">11 Hari</td>
+                      <td class="px-6 py-4">
+                        <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10" aria-label="Next">
+                          <span href="ktu_dashboard.html" class="text-teal-500 hover:text-teal-700 no-underline font-semibold flex items-center gap-2 border-b border-teal-500">Selengkapnya</span>
+                          <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m9 18 6-6-6-6"></path>
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                    
+                    <tr class="border-b hover:bg-gray-50">
+                      <td class="px-6 py-4">4</td>
+                      <td class="px-6 py-4">Elizabeth Wilson</td>
+                      <td class="px-6 py-4">12 Januari 2025</td>
+                      <td class="px-6 py-4">14 Januari 2025</td>
+                      <td class="px-6 py-4">2 Hari</td>
+                      <td class="px-6 py-4">11 Hari</td>
+                      <td class="px-6 py-4">
+                        <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10" aria-label="Next">
+                          <span href="ktu_dashboard.html" class="text-teal-500 hover:text-teal-700 no-underline font-semibold flex items-center gap-2 border-b border-teal-500">Selengkapnya</span>
+                          <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m9 18 6-6-6-6"></path>
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>                    
+                  </tbody>
+                </table>
+                <!-- Pagination -->
+              <div class="flex justify-end py-4 px-12">
+                <nav class="flex items-center gap-x-1 mt-4 ml-auto" aria-label="Pagination">
+                  <div class="flex items-center gap-x-1">
+                      <button type="button" class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-orange-400 text-white py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:text-white dark:focus:bg-neutral-500" aria-current="page">1</button>
+                      <button type="button" class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">2</button>
+                      <button type="button" class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">3</button>
+                  </div>
+                  <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10" aria-label="Next">
+                      <span>Next</span>
+                      <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6"></path>
+                      </svg>
+                  </button>
+              </nav>
+            </div>
+              <!-- End Pagination -->
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
+</body>
+</html>
