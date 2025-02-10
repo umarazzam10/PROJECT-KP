@@ -9,7 +9,11 @@ const verifyTokenAndRole = require('../middleware/verifyTokenAndRole');
 
 router.get('/', verifyTokenAndRole('user'), (req, res) => {
   // res.render('home', { title: 'Home'});
-  res.render('home', { title: 'Home'});
+  res.render('home', { 
+    title: 'Home',
+    user: req.user, 
+    leaveRequests: req.leaveRequests || []  // Contoh: jika di-query sebelumnya
+  });
 });
 
 module.exports = router;
