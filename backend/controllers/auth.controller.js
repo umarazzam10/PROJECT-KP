@@ -29,9 +29,8 @@ const cekLogin = async (req, res) => {
         if (!isValidPassword) {
             return res.render("loginPage", { errorMessages: ["Email atau password tidak valid"] });
         }
-
         const token = jwt.sign(
-            { id: user.id, nip: user.nip, role: user.role },
+            { id: user.NIP, nip: user.nip, role: user.role },
             "secretsecret",
             { expiresIn: 86400 }
         );
@@ -41,10 +40,10 @@ const cekLogin = async (req, res) => {
         
         if (user.role == "user") {
             return res.redirect("/");
-        } else if (user.role == "tu") {
-            return res.redirect("/tu/dashboard");
-        } else if (user.role == "admin") {
-            return res.redirect("/admin/dashboard");
+        } else if (user.role == "ktu") {
+            return res.redirect("/ktu/dashboard");
+        } else if (user.role == "pimpinan") {
+            return res.redirect("/pimpinan/dashboard");
         }
 
         res.status(200).send({ auth: true, token: token });

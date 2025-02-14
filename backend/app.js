@@ -4,14 +4,36 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const app = express();
+const session = require("express-session");
+const flash = require("connect-flash");
+const cron = require('node-cron');
+require('./scheduler/annualLeave');
+
+app.use(session({
+  secret: "yourSecretKey",
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
+
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../frontend/src/img')));
+app.use(express.static(path.join(__dirname, '../frontend/src/img/icon')));
 app.use(express.static(path.join(__dirname, '../frontend/src')));
-app.use(express.static(path.join(__dirname, "/node_modules/preline/dist")));
+app.use(express.static(path.join(__dirname, "../frontend/node_modules/preline/dist")));
 app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
@@ -19,16 +41,21 @@ app.set("views", [
     path.join(__dirname, "../frontend/Views/Pimpinan"),
     path.join(__dirname, "../frontend/Views/Pegawai"),
     path.join(__dirname, "../frontend/Views/user"),
+    path.join(__dirname, "../frontend/Views/ktu"),
     path.join(__dirname, "../frontend/Views"),
 ]);
 
 
-const usersRouter = require('./routes/usersRoutes.js');
 const authRouter = require("./routes/authRoutes.js");
+const usersRouter = require('./routes/usersRoutes.js');
+const ktuRouter = require('./routes/ktuRoutes.js');
+const pimpinanRouter = require('./routes/pimpinanRoutes.js');
 
 
 app.use("/auth", authRouter);
 app.use('/', usersRouter);
+app.use('/ktu', ktuRouter);
+app.use('/pimpinan', pimpinanRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

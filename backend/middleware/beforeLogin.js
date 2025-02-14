@@ -11,17 +11,16 @@ function beforeLogin(req, res, next) {
                     message: "Token tidak valid atau telah kedaluwarsa.",
                 });
             }
-
             req.userId = decoded.id;
             req.userRole = decoded.role;
-            req.userEmail = decoded.email;
+            req.userNip = decoded.nip;
 
             if (req.userRole == "user") {
                 return res.redirect("/");
-            } else if (req.userRole == "tu") {
-                return res.redirect("/tu/dashboard");
-            } else if (req.userRole == "admin") {
-                return res.redirect("/admin/dashboard");
+            } else if (req.userRole == "ktu") {
+                return res.redirect("/ktu/dashboard");
+            } else if (req.userRole == "pimpinan") {
+                return res.redirect("/pimpinan/dashboard");
             }
         });
     } else {

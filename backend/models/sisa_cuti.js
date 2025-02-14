@@ -5,7 +5,7 @@
   // models/Sisa_Cuti.js
   module.exports = (sequelize, DataTypes) => {
     const SisaCuti = sequelize.define('Sisa_Cuti', {
-      id_sisa_cuti: {
+      id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -14,14 +14,14 @@
         type: DataTypes.STRING,
         allowNull: false,
         references: {
-          model: 'Pegawai',
+          model: 'Pegawais',
           key: 'NIP'
         }
       },
       tahun: DataTypes.INTEGER,
       sisa_cuti: DataTypes.INTEGER
     }, {
-      tableName: 'Sisa_Cuti',
+      tableName: 'Sisa_Cutis',
       timestamps: false
     });
 

@@ -5,7 +5,7 @@ const {
 // models/Permintaan_Cuti.js
 module.exports = (sequelize, DataTypes) => {
   const PermintaanCuti = sequelize.define('Permintaan_Cuti', {
-    id_permintaan: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: 'Pegawai',
+        model: 'Pegawais',
         key: 'NIP'
       }
     },
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     keterangan: DataTypes.STRING,
     sisa_cuti_dipakai: DataTypes.INTEGER
   }, {
-    tableName: 'Permintaan_Cuti',
+    tableName: 'Permintaan_Cutis',
     timestamps: false
   });
 
