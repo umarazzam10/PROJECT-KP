@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     sisa_cuti_dipakai: DataTypes.INTEGER
   }, {
     tableName: 'Permintaan_Cutis',
-    timestamps: false
+    timestamps: true
   });
 
   PermintaanCuti.associate = (models) => {

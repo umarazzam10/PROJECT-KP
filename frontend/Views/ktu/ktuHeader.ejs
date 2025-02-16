@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - KTU</title>
+    <link href="../output.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/preline/2.0.3/preline.min.js"></script>
+</head>
+<body class="font-poppins">
+    <header class="bg-white shadow">
+        <div class="border-b border-gray-100">
+            <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <!-- Logo Section -->
+                    <div class="flex items-center w-1/4">
+                        <img src="../Logo PPSDM.png" alt="Logo BMKG" class="h-10 mr-4">
+                        <h1 class="text-2xl font-bold text-gray-900">PPSDM MKG</h1>
+                    </div>
+
+                    <!-- Navigation Links - Centered -->
+                    <nav class="hidden md:flex justify-center space-x-12 w-2/4">
+                        <a href="/ktu/dashboard" 
+                           class="font-medium text-base transition-colors duration-200 <%= title === 'Dashboard' ? 'text-teal-500' : 'text-gray-900 hover:text-teal-500' %>">
+                            Dashboard
+                        </a>
+                        <a href="/ktu/datapegawai" 
+                           class="font-medium text-base transition-colors duration-200 <%= title === 'Data Pegawai' ? 'text-teal-500' : 'text-gray-900 hover:text-teal-500' %>">
+                            Data Pegawai
+                        </a>
+                        <a href="/ktu/pembatalan" 
+                           class="font-medium text-base transition-colors duration-200 <%= title === 'Pembatalan' ? 'text-teal-500' : 'text-gray-900 hover:text-teal-500' %>">
+                            Pembatalan
+                        </a>
+                        <a href="/ktu/rekapan" 
+                           class="font-medium text-base transition-colors duration-200 <%= title === 'Rekapan' ? 'text-teal-500' : 'text-gray-900 hover:text-teal-500' %>">
+                            Rekapan
+                        </a>
+                    </nav>
+
+                    <!-- Right Section - Profile & Notification -->
+                    <div class="flex items-center justify-end space-x-4 w-1/4">
+                        <!-- Notification Button -->
+                        <a href="/notifikasi" class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-dot">
+                                <path d="M19.4 14.9C20.2 16.4 21 17 21 17H3s3-2 3-9c0-3.3 2.7-6 6-6 .7 0 1.3.1 1.9.3"/>
+                                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+                                <circle cx="18" cy="8" r="3"/>
+                            </svg>
+                        </a>
+
+                        <!-- Profile Dropdown -->
+                        <div class="hs-dropdown relative inline-flex">
+                            <button id="hs-dropdown-custom-trigger" type="button" class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 transition-colors duration-200">
+                                <img class="w-8 h-8 rounded-full object-cover" src="/profile2.png" alt="Profile">
+                                <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6"/>
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-44 bg-white shadow-md rounded-lg p-2 mt-2">
+                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/profil">Profil</a>
+                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/faq">FaQ</a>
+                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/ubah">Ubah Password</a>
+                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/riwayat">Riwayat Ujian</a>
+                                <button type="submit" class="w-full flex justify-center items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-red-800 hover:bg-red-800 hover:text-white transition-colors duration-200" data-hs-overlay="#hs-sign-out-alert">
+                                    Keluar
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" x2="9" y1="12" y2="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Menu Button -->
+                        <button type="button" class="md:hidden hs-collapse-toggle p-2 inline-flex justify-center items-center rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 transition-colors duration-200" data-hs-collapse="#navbar-mobile-collapse" aria-controls="navbar-mobile-collapse" aria-label="Toggle navigation">
+                            <svg class="hs-collapse-open:hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="3" x2="21" y1="6" y2="6"/>
+                                <line x1="3" x2="21" y1="12" y2="12"/>
+                                <line x1="3" x2="21" y1="18" y2="18"/>
+                            </svg>
+                            <svg class="hs-collapse-open:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18"/>
+                                <path d="m6 6 12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu -->
+                <div id="navbar-mobile-collapse" class="hidden md:hidden">
+                    <div class="py-4 space-y-4">
+                        <a href="/ktu/dashboard" 
+                           class="block py-2 px-3 rounded-lg font-medium transition-colors duration-200 <%= title === 'Dashboard' ? 'text-teal-500 bg-gray-50' : 'text-gray-800 hover:bg-gray-100' %>">
+                            Dashboard
+                        </a>
+                        <a href="/ktu/datapegawai" 
+                           class="block py-2 px-3 rounded-lg font-medium transition-colors duration-200 <%= title === 'Data Pegawai' ? 'text-teal-500 bg-gray-50' : 'text-gray-800 hover:bg-gray-100' %>">
+                            Data Pegawai
+                        </a>
+                        <a href="/ktu/pembatalan" 
+                           class="block py-2 px-3 rounded-lg font-medium transition-colors duration-200 <%= title === 'Pembatalan' ? 'text-teal-500 bg-gray-50' : 'text-gray-800 hover:bg-gray-100' %>">
+                            Pembatalan
+                        </a>
+                        <a href="/ktu/rekapan" 
+                           class="block py-2 px-3 rounded-lg font-medium transition-colors duration-200 <%= title === 'Rekapan' ? 'text-teal-500 bg-gray-50' : 'text-gray-800 hover:bg-gray-100' %>">
+                            Rekapan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            HSCollapse.autoInit();
+        });
+    </script>
+</body>
+</html>

@@ -3,14 +3,19 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Home Page</title>
+        <title>Sistem Cuti PPSDM BMKG</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link href="output.css" rel="stylesheet" />
         <style>
+            /* Previous styles remain the same */
             .hero-section {
                 position: relative;
-                height: 400px;
+                height: 60vh;
                 width: 100%;
                 overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .hero-bg {
@@ -19,9 +24,10 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-image: url(" home.png");
+                background-image: url("home.png");
                 background-size: cover;
                 background-position: center;
+                z-index: -2;
             }
 
             .hero-overlay {
@@ -30,189 +36,199 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.5);
+                background: rgba(0, 0, 0, 0.6);
+                z-index: -1;
             }
+
+            /* Mobile dropdown animation */
+            .mobile-menu {
+                transition: max-height 0.3s ease-in-out;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            .mobile-menu.show {
+                max-height: 300px;
+            }
+
+            /* Rest of the previous styles... */
         </style>
     </head>
     <body class="font-poppins bg-gray-50">
         <!-- Header -->
-        <header class="bg-white shadow">
-            <div
-                class="container mx-auto px-6 py-4 flex justify-between items-center"
-            >
-                <div class="flex items-center space-x-4">
-                    <img src=" Logo PPSDM.png" alt="Logo BMKG" class="h-10" />
-                    <h1 class="text-lg font-bold text-gray-700">PPSDM BMKG</h1>
-                </div>
-                <div class="flex items-center gap-x-2">
-                    <nav>
-                        <ul class="flex space-x-2">
+        <header class="bg-white shadow-sm fixed w-full top-0 z-50">
+            <div class="container mx-auto px-4 lg:px-6 py-4">
+                <!-- Desktop Layout -->
+                <div class="flex justify-between items-center">
+                    <!-- Logo Section -->
+                    <div class="flex items-center space-x-4">
+                        <img
+                            src="Logo PPSDM.png"
+                            alt="Logo PPSDM BMKG"
+                            class="h-10 w-auto"
+                        />
+                        <h1 class="text-xl font-bold text-gray-800">
+                            PPSDM BMKG
+                        </h1>
+                    </div>
+
+                    <!-- Centered Navigation (Desktop) -->
+                    <nav
+                        class="hidden md:block absolute left-1/2 transform -translate-x-1/2"
+                    >
+                        <ul class="flex space-x-8">
                             <li>
                                 <a
-                                    href="#home"
-                                    class="text-gray-600 hover:text-green-500"
-                                    >Home</a
+                                    href="/"
+                                    class="nav-link text-gray-600 hover:text-orange-700 font-medium transition-colors duration-200 text-orange-500 text-gray-900"
                                 >
+                                    Home
+                                </a>
                             </li>
                             <li>
                                 <a
-                                    href="#riwayat"
-                                    class="text-gray-600 hover:text-green-500"
-                                    >Riwayat</a
+                                    href="/riwayat"
+                                    class="nav-link text-gray-600 hover:text-orange-500 font-medium transition-colors duration-200"
                                 >
+                                    Riwayat
+                                </a>
                             </li>
-                            <div class="flex items-center space-x-4">
-                                <div class="flex flex-col text-right">
-                                    <span class="text-gray-500 text-sm"
-                                        >Hi, Slamet</span
-                                    >
-                                    <span
-                                        class="text-green-500 text-sm font-medium"
-                                        >Pegawai</span
-                                    >
-                                </div>
-                            </div>
                         </ul>
                     </nav>
-                    <div class="relative">
+
+                    <!-- Right Side - User Profile -->
+                    <div class="flex items-center gap-x-4">
+                        <!-- User Welcome (Desktop) -->
+                        <div class="hidden md:flex flex-col text-right">
+                            <span class="text-gray-500 text-sm">Welcome,</span>
+                            <span class="text-orange-500 text-sm font-medium"
+                                ><%= user.nama %></span
+                            >
+                        </div>
+
                         <!-- Profile Dropdown -->
-                        <div
-                            class="hs-dropdown relative inline-flex [--auto-close:inside]"
-                        >
+                        <div class="relative inline-flex">
                             <button
                                 id="profile-dropdown"
-                                type="button"
-                                class="hs-dropdown-toggle z-30"
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 hover:border-gray-300 transition-all duration-200"
                             >
                                 <img
-                                    src="/frontend/src/img/profile.png"
-                                    alt="Profile Picture"
-                                    class="w-10 h-10 rounded-full border border-gray-300"
+                                    src="/profile2.png"
+                                    alt="Profile picture"
+                                    class="w-9 h-9 rounded-full object-cover"
                                 />
                             </button>
 
-                            <!-- Adjusted Dropdown with Fixed Position -->
+                            <!-- Profile Dropdown Menu -->
                             <div
-                                class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[12rem] bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700 fixed right-4 top-16 z-50"
+                                id="profile-menu"
+                                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1"
                             >
-                                <a
-                                    class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                    href="#profile"
-                                >
-                                    <svg
-                                        class="w-4 h-4"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                <div class="px-4 py-2 border-b border-gray-100">
+                                    <p class="text-sm text-gray-500">
+                                        Signed in as
+                                    </p>
+                                    <p
+                                        class="text-sm font-medium text-gray-800"
                                     >
-                                        <path
-                                            d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                                        ></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                    Profile
-                                </a>
+                                        <%= user.nama %>
+                                    </p>
+                                </div>
+                                <a
+                                    href="#profile"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    >Profile</a
+                                >
                                 <form action="/auth/logout" method="post">
                                     <button
                                         type="submit"
-                                        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                        class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                                     >
-                                        <svg
-                                            class="w-4 h-4"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        >
-                                            <path
-                                                d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
-                                            ></path>
-                                            <polyline
-                                                points="16 17 21 12 16 7"
-                                            ></polyline>
-                                            <line
-                                                x1="21"
-                                                y1="12"
-                                                x2="9"
-                                                y2="12"
-                                            ></line>
-                                        </svg>
                                         Logout
                                     </button>
                                 </form>
                             </div>
                         </div>
+
+                        <!-- Mobile Menu Toggle -->
+                        <button
+                            id="mobile-menu-button"
+                            class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-orange-500 hover:bg-gray-100 focus:outline-none transition duration-150 ease-in-out"
+                            aria-label="Main menu"
+                            aria-expanded="false"
+                        >
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    class="menu-open"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                                <path
+                                    class="menu-close hidden"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
                     </div>
+                </div>
+
+                <!-- Mobile Menu Dropdown -->
+                <div id="mobile-menu" class="mobile-menu md:hidden">
+                    <nav class="px-2 pt-2 pb-3 space-y-1">
+                        <a
+                            href="#home"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 transition duration-150 ease-in-out"
+                        >
+                            Home
+                        </a>
+                        <a
+                            href="#riwayat"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 transition duration-150 ease-in-out"
+                        >
+                            Riwayat
+                        </a>
+                        <div class="px-3 py-2 border-t border-gray-200 mt-2">
+                            <p class="text-sm text-gray-500">Signed in as</p>
+                            <p class="text-sm font-medium text-orange-500">
+                                <%= user.nama %>
+                            </p>
+                        </div>
+                    </nav>
                 </div>
             </div>
         </header>
 
-        <!-- Hero Section -->
-        <style>
-            .hero-section {
-                position: relative;
-                height: 60vh; /* Adjusted for better vertical proportion */
-                width: 100%;
-                overflow: hidden;
-                display: flex;
-                align-items: center; /* Centers content vertically */
-            }
+        <!-- Spacer for fixed header -->
+        <div class="pt-24"></div>
 
-            .hero-bg {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: url(" home.png");
-                background-size: cover;
-                background-position: center;
-                z-index: 1;
-            }
-
-            .hero-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 2;
-            }
-
-            .hero-content {
-                position: relative;
-                z-index: 3;
-                width: 100%;
-            }
-        </style>
-
+        <!-- Hero Section with improved text contrast -->
         <section class="hero-section">
             <div class="hero-bg"></div>
             <div class="hero-overlay"></div>
-            <div
-                class="hero-content flex flex-col items-center justify-center gap-2"
-            >
-                <h1 class="text-white text-4xl font-bold">Selamat Datang di</h1>
-                <h1 class="text-white text-4xl font-semibold">
-                    Sistem Pengajuan
-                    <span class="text-orange-500">Cuti Tahunan</span> PPSDM MKG
+            <div class="hero-content text-center">
+                <h1 class="text-white text-4xl md:text-5xl font-bold mb-2">
+                    Selamat Datang di
                 </h1>
+                <h2 class="text-white text-3xl md:text-4xl font-semibold">
+                    Sistem Pengajuan
+                    <span class="text-orange-400">Cuti Tahunan</span> PPSDM BMKG
+                </h2>
             </div>
         </section>
 
-        <!-- Main Content -->
+        <!-- Main Content with improved layout -->
         <main class="container mx-auto px-12 py-24">
             <div
                 class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto"
@@ -227,7 +243,7 @@
                                 Sisa Cuti
                             </p>
                             <p class="text-8xl font-bold text-orange-500 mb-1">
-                                12
+                                <%= remainingLeave %>
                             </p>
                             <p class="text-2xl text-gray-600">Hari</p>
                         </div>
@@ -253,7 +269,7 @@
                             Ajukan Cuti
                         </button>
 
-                        <!-- Modal Background -->
+                        <!-- Modal Form Pengajuan Cuti -->
                         <div
                             id="cuti-modal"
                             class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 transition-opacity duration-300"
@@ -278,16 +294,46 @@
                                 </div>
 
                                 <!-- Form -->
-                                <form class="mt-5 space-y-4">
+                                <form
+                                    id="cutiForm"
+                                    action="/apply"
+                                    method="post"
+                                    class="mt-5 space-y-4"
+                                >
+                                    <!-- Hidden Fields -->
+                                    <input
+                                        type="hidden"
+                                        name="NIP"
+                                        value="<%= user.NIP %>"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="applicationYear"
+                                        value="<%= new Date().getFullYear() %>"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="jenis_cuti"
+                                        value="Tahunan"
+                                    />
+                                    <!-- Hidden field untuk requestedDays yang akan dihitung secara client-side -->
+                                    <input
+                                        type="hidden"
+                                        id="requestedDays"
+                                        name="requestedDays"
+                                        value=""
+                                    />
+
                                     <!-- Alasan Cuti -->
                                     <div>
                                         <label
-                                            for="alasan"
+                                            for="keterangan"
                                             class="block text-sm font-medium text-gray-700"
                                             >Alasan Cuti</label
                                         >
                                         <textarea
-                                            id="alasan"
+                                            id="keterangan"
+                                            name="keterangan"
                                             class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-orange-500 focus:border-orange-500"
                                             rows="3"
                                             placeholder="Masukkan Alasan Cuti"
@@ -297,13 +343,14 @@
                                     <!-- Mulai Cuti -->
                                     <div>
                                         <label
-                                            for="mulai-cuti"
+                                            for="tanggal_mulai"
                                             class="block text-sm font-medium text-gray-700"
                                             >Mulai Cuti</label
                                         >
                                         <input
                                             type="date"
-                                            id="mulai-cuti"
+                                            id="tanggal_mulai"
+                                            name="tanggal_mulai"
                                             class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-orange-500 focus:border-orange-500"
                                         />
                                     </div>
@@ -311,13 +358,14 @@
                                     <!-- Selesai Cuti -->
                                     <div>
                                         <label
-                                            for="selesai-cuti"
+                                            for="tanggal_selesai"
                                             class="block text-sm font-medium text-gray-700"
                                             >Selesai Cuti</label
                                         >
                                         <input
                                             type="date"
-                                            id="selesai-cuti"
+                                            id="tanggal_selesai"
+                                            name="tanggal_selesai"
                                             class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-orange-500 focus:border-orange-500"
                                         />
                                     </div>
@@ -332,57 +380,15 @@
                                 </form>
                             </div>
                         </div>
-
-                        <!-- JavaScript for Modal with Smooth Animation -->
-                        <script>
-                            const modal = document.getElementById("cuti-modal");
-                            const modalContent =
-                                document.getElementById("modal-content");
-                            const openModalBtn =
-                                document.getElementById("open-modal");
-                            const closeModalBtn =
-                                document.getElementById("close-modal");
-
-                            function openModal() {
-                                modal.classList.remove("hidden");
-                                setTimeout(() => {
-                                    modal.classList.add("opacity-100");
-                                    modalContent.classList.add(
-                                        "scale-100",
-                                        "opacity-100"
-                                    );
-                                }, 10);
-                            }
-
-                            function closeModal() {
-                                modal.classList.remove("opacity-100");
-                                modalContent.classList.remove(
-                                    "scale-100",
-                                    "opacity-100"
-                                );
-
-                                setTimeout(() => {
-                                    modal.classList.add("hidden");
-                                }, 300);
-                            }
-
-                            openModalBtn.addEventListener("click", openModal);
-                            closeModalBtn.addEventListener("click", closeModal);
-
-                            // Close modal when clicking outside of it
-                            modal.addEventListener("click", function (e) {
-                                if (e.target === modal) {
-                                    closeModal();
-                                }
-                            });
-                        </script>
                     </div>
                 </div>
             </div>
 
             <!-- Leave Status Table -->
             <div class="bg-white rounded-xl mt-8 p-6 shadow-md">
-                <h3 class="text-xl font-semibold mb-6">Status</h3>
+                <h3 class="text-xl font-semibold mb-6">
+                    Status Pengajuan Cuti
+                </h3>
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead>
@@ -395,22 +401,162 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% if (leaveRequests && leaveRequests.length > 0) {
+                            %> <% leaveRequests.forEach((cuti, index) => { %>
                             <tr class="border-t border-gray-100">
-                                <td class="py-4">1</td>
+                                <td class="py-4"><%= index + 1 %></td>
+                                <td class="py-4"><%= cuti.keterangan %></td>
                                 <td class="py-4">
-                                    Keluarga Mengadakan Acara besar-besaran
-                                    un...
+                                    <%= new
+                                    Date(cuti.tanggal_mulai).toLocaleDateString()
+                                    %>
                                 </td>
-                                <td class="py-4">20-01-2025</td>
-                                <td class="py-4">24-01-2025</td>
-                                <td class="py-4 text-blue-500">Proses</td>
+                                <td class="py-4">
+                                    <%= new
+                                    Date(cuti.tanggal_selesai).toLocaleDateString()
+                                    %>
+                                </td>
+                                <td class="py-4 text-blue-500">
+                                    <%= cuti.status %>
+                                </td>
                             </tr>
+                            <% }); %> <% } else { %>
+                            <tr>
+                                <td
+                                    colspan="5"
+                                    class="py-4 text-center text-gray-500"
+                                >
+                                    Belum ada pengajuan cuti
+                                </td>
+                            </tr>
+                            <% } %>
                         </tbody>
                     </table>
                 </div>
             </div>
         </main>
 
-        <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
+        <script>
+            // Modal Functionality
+            const modal = document.getElementById("cuti-modal");
+            const modalContent = document.getElementById("modal-content");
+            const openModalBtn = document.getElementById("open-modal");
+            const closeModalBtn = document.getElementById("close-modal");
+
+            function openModal() {
+                modal.classList.remove("hidden");
+                setTimeout(() => {
+                    modal.classList.add("opacity-100");
+                    modalContent.classList.add("scale-100", "opacity-100");
+                }, 10);
+            }
+
+            function closeModal() {
+                modal.classList.remove("opacity-100");
+                modalContent.classList.remove("scale-100", "opacity-100");
+                setTimeout(() => modal.classList.add("hidden"), 300);
+            }
+
+            openModalBtn.addEventListener("click", openModal);
+            closeModalBtn.addEventListener("click", closeModal);
+            modal.addEventListener(
+                "click",
+                (e) => e.target === modal && closeModal()
+            );
+
+            // Mobile Menu Toggle
+            const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+            const mobileMenu = document.getElementById("mobile-menu");
+            const menuIcons = {
+                open: mobileMenuButton.querySelector(".menu-open"),
+                close: mobileMenuButton.querySelector(".menu-close"),
+            };
+
+            mobileMenuButton.addEventListener("click", () => {
+                const isExpanded =
+                    mobileMenuButton.getAttribute("aria-expanded") === "true";
+                mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+                mobileMenu.classList.toggle("show");
+                menuIcons.open.classList.toggle("hidden");
+                menuIcons.close.classList.toggle("hidden");
+            });
+
+            // Profile Dropdown
+            const profileDropdown = document.getElementById("profile-dropdown");
+            const profileMenu = document.getElementById("profile-menu");
+
+            profileDropdown.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const isExpanded =
+                    profileDropdown.getAttribute("aria-expanded") === "true";
+                profileDropdown.setAttribute("aria-expanded", !isExpanded);
+                profileMenu.classList.toggle("hidden");
+            });
+
+            // Close All Dropdowns
+            document.addEventListener("click", () => {
+                profileMenu.classList.add("hidden");
+                profileDropdown.setAttribute("aria-expanded", "false");
+            });
+
+            // Responsive Cleanup
+            window.addEventListener("resize", () => {
+                if (window.innerWidth >= 768) {
+                    mobileMenu.classList.remove("show");
+                    menuIcons.open.classList.remove("hidden");
+                    menuIcons.close.classList.add("hidden");
+                    mobileMenuButton.setAttribute("aria-expanded", "false");
+                }
+            });
+        </script>
+        <script>
+            // Saat form disubmit, hitung selisih tanggal sebagai requestedDays
+            document
+                .getElementById("cutiForm")
+                .addEventListener("submit", function (e) {
+                    const startInput =
+                        document.getElementById("tanggal_mulai").value;
+                    const endInput =
+                        document.getElementById("tanggal_selesai").value;
+                    if (!startInput || !endInput) {
+                        // Jika salah satu tanggal tidak diisi, biarkan form mengirimkan nilai kosong.
+                        return;
+                    }
+                    const startDate = new Date(startInput);
+                    const endDate = new Date(endInput);
+                    // Hitung jumlah hari (inklusif)
+                    const diffTime = endDate - startDate;
+                    const diffDays =
+                        Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                    // Set nilai hidden field requestedDays
+                    document.getElementById("requestedDays").value = diffDays;
+                });
+        </script>
+        <script>
+            <% if (success && success.length > 0) { %>
+            Swal.fire({
+                title: 'Berhasil!',
+                text: '<%= success[0] %>',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                location.reload();
+                }
+            });
+            <% } else if (error && error.length > 0) { %>
+            Swal.fire({
+                title: 'Gagal!',
+                text: '<%= error[0] %>',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                location.reload();
+                }
+            });
+            <% } %>
+        </script>
     </body>
 </html>

@@ -3,6 +3,7 @@ const { Pegawai, Sisa_Cuti } = require('../models');
 
 // Scheduler dijalankan setiap tanggal 1 Januari pada pukul 00:00
 cron.schedule('0 0 1 1 *', async () => {
+  console.log('Annual leave scheduler running...');
   try {
     const currentYear = new Date().getFullYear();
     console.log(`Menjalankan scheduler penambahan sisa cuti untuk tahun ${currentYear}`);

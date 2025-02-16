@@ -17,6 +17,9 @@ router.get ('/pembatalan',verifyTokenAndRole('ktu'), (req, res, next) => {
 router.get ('/rekapan',verifyTokenAndRole('ktu'), (req, res, next) => {
     res.render('ktu_rekapan', { title: 'Rekapan' });
 });
+router.get ('/tambahpegawai',verifyTokenAndRole('ktu'), (req, res, next) => {
+    res.render('ktu_tambah_pegawai', { title: 'Tambah Pegawai' });
+});
 
 
 module.exports = router;

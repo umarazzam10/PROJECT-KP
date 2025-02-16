@@ -219,6 +219,17 @@ const applyLeave = async (req, res) => {
         const { NIP, applicationYear, requestedDays, jenis_cuti, keterangan } =
             req.body;
 
+                    const pendingRequest = await Permintaan_Cuti.findOne({
+            where: { NIP, status: { [Op.in]: ["Diajukan", "Dalam Proses"] } },
+        });
+        if (pendingRequest) {
+           req.flash(
+                "error",
+                `Anda sudah memiliki pengajuan cuti yang sedang diproses. Tidak dapat menambah pengajuan baru.`
+            );
+            return res.redirect("back");
+        }
+
         // Hak cuti tahun berjalan tetap 12 hari.
         const currentEntitlement = await Sisa_Cuti.findOne({
             where: { NIP, tahun: applicationYear},
@@ -301,6 +312,7 @@ const applyLeave = async (req, res) => {
             jenis_cuti,
             keterangan: `${keterangan}`,
             sisa_cuti_dipakai: usedY2 + usedY1,
+            timestamps: true
         });
 
         req.flash("success", "Pengajuan cuti berhasil diajukan.");
@@ -404,6 +416,24 @@ const getPegawaiData = async (req, res, next) => {
     }
 };
 
+const getPegawaiDataAll = async (req, res, next) => {
+    try {
+        const pegawais = await Pegawai.findAll({
+            attributes: ["NIP", "nama", "role"],
+        });
+
+        if (!pegawais || pegawais.length === 0) {
+            return next(new Error("Data pegawai tidak ditemukan"));
+        }
+
+        // Simpan data pegawai ke req dengan nama yang jelas
+        req.pegawais = pegawais;
+        return next();
+    } catch (error) {
+        return next(error);
+    }
+};
+
 const getPermintaan = async (req, res, next) => {
     try {
         // Ambil data permintaan cuti berdasarkan NIP pegawai yang sudah disimpan di req.pegawai
@@ -417,6 +447,20 @@ const getPermintaan = async (req, res, next) => {
         return next(error);
     }
 };
+const getPermintaanAll = async (req, res, next) => {
+    try {
+        const leaveRequests = await Permintaan_Cuti.findAll({
+          // Jika ingin mengambil semua data permintaan
+          order: [['createdAt', 'DESC']]
+        });
+        req.leaveRequests = leaveRequests;
+        next();
+      } catch (error) {
+        next(error);
+      }
+};
+
+
 
 const cancelLeave = async (req, res) => {
     try {
@@ -456,4 +500,6 @@ module.exports = {
     getPermintaan,
     cancelLeave,
     getRemainingLeave,
+    getPegawaiDataAll,
+    getPermintaanAll
 };

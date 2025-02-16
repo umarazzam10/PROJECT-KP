@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Cuti PPSDM BMKG</title>
+    <link href="/output.css" rel="stylesheet">
+    <style>
+        /* Previous styles remain the same */
+        .hero-section {
+            position: relative;
+            height: 60vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("home.png");
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Mobile dropdown animation */
+        .mobile-menu {
+            transition: max-height 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .mobile-menu.show {
+            max-height: 300px;
+        }
+
+        /* Rest of the previous styles... */
+    </style>
+</head>
+<body class="font-poppins bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4 lg:px-6 py-4">
+            <!-- Desktop Layout -->
+            <div class="flex justify-between items-center">
+                <!-- Logo Section -->
+                <div class="flex items-center space-x-4">
+                    <img src="Logo PPSDM.png" alt="Logo PPSDM BMKG" class="h-10 w-auto">
+                    <h1 class="text-xl font-bold text-gray-800">PPSDM BMKG</h1>
+                </div>
+
+                <!-- Centered Navigation (Desktop) -->
+                <nav class="hidden md:block absolute left-1/2 transform -translate-x-1/2">
+                    <ul class="flex space-x-8">
+                        <li>
+                            <a href="/"
+                               class="nav-link text-gray-600 hover:text-orange-500 font-medium transition-colors duration-200">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/riwayat"
+                               class="nav-link text-gray-600 hover:text-orange-700 font-medium transition-colors duration-200 text-orange-500 text-gray-900">
+                                Riwayat
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Right Side - User Profile -->
+                <div class="flex items-center gap-x-4">
+                    <!-- User Welcome (Desktop) -->
+                    <div class="hidden md:flex flex-col text-right">
+                        <span class="text-gray-500 text-sm">Welcome,</span>
+                        <span class="text-orange-500 text-sm font-medium"><%= user.nama %></span>
+                    </div>
+
+                    <!-- Profile Dropdown -->
+                    <div class="relative inline-flex">
+                        <button id="profile-dropdown" aria-expanded="false" aria-haspopup="true"
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 hover:border-gray-300 transition-all duration-200">
+                            <img src="/profile2.png" alt="Profile picture"
+                                 class="w-9 h-9 rounded-full object-cover">
+                        </button>
+
+                        <!-- Profile Dropdown Menu -->
+                        <div id="profile-menu"
+                             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1">
+                            <div class="px-4 py-2 border-b border-gray-100">
+                                <p class="text-sm text-gray-500">Signed in as</p>
+                                <p class="text-sm font-medium text-gray-800"><%= user.nama %></p>
+                            </div>
+                            <a href="#profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                            <form action="/auth/logout" method="post">
+                                <button type="submit"
+                                        class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-button"
+                            class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-orange-500 hover:bg-gray-100 focus:outline-none transition duration-150 ease-in-out"
+                            aria-label="Main menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path class="menu-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16"/>
+                            <path class="menu-close hidden" stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Dropdown -->
+                <div id="mobile-menu" class="mobile-menu md:hidden">
+                    <nav class="px-2 pt-2 pb-3 space-y-1">
+                        <a href="#home"
+                           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 transition duration-150 ease-in-out">
+                            Home
+                        </a>
+                        <a href="#riwayat"
+                           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 transition duration-150 ease-in-out">
+                            Riwayat
+                        </a>
+                        <div class="px-3 py-2 border-t border-gray-200 mt-2">
+                            <p class="text-sm text-gray-500">Signed in as</p>
+                            <p class="text-sm font-medium text-orange-500"><%= user.nama %></p>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="max-w-[85rem] px-4 py-14 sm:px-6 lg:px-8 lg:py-14 mx-auto pt-8">
+            <!-- Header with right-aligned dropdown -->
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800 mt-10">
+                    Riwayat Pengajuan Cuti
+                </h1>
+
+                <!-- Filter Dropdown -->
+                <div class="relative">
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm text-gray-600">Filter</span>
+                        <select
+                            class="py-2 px-4 pr-8 border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option>Sebulan terakhir</option>
+                            <option>3 Bulan terakhir</option>
+                            <option>6 Bulan terakhir</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="flex flex-col">
+                <div class="-m-1.5 overflow-x-auto">
+                    <div class="p-1.5 min-w-full inline-block align-middle">
+                        <div class="border rounded-lg overflow-hidden">
+                            <!-- Leave Status Table -->
+                            <div class="bg-white rounded-xl mt-8 p-6 shadow-md">
+                                <h3 class="text-xl font-semibold mb-6">Status Pengajuan Cuti</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                    No
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                    Alasan
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                    Mulai Cuti
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                    Selesai Cuti
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                    Status
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                    Aksi
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200">
+                                            <% if (leaveRequests && leaveRequests.length > 0) { %>
+                                            <% leaveRequests.forEach((cuti, index) => { %>
+                                            <tr class="hover:bg-gray-100">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                    <%= index + 1 %>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                    <%= cuti.keterangan %>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                    <%= new Date(cuti.tanggal_mulai).toLocaleDateString() %>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                    <%= new Date(cuti.tanggal_selesai).toLocaleDateString() %>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span
+                                                        class="inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                        <%= cuti.status %>
+                                                    </span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <% if (['Diajukan', 'Dalam Proses'].includes(cuti.status)) { %>
+                                                    <a href="#"
+                                                       class="open-cancel-modal bg-red-600 py-2 px-2 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-red-700"
+                                                       data-id="<%= cuti.id %>">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
+                                                             fill="none" stroke="currentColor" stroke-width="2"
+                                                             stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M6 18 18 6M6 6l12 12"/>
+                                                        </svg>
+                                                        Batalkan
+                                                    </a>
+                                                    <% } else { %>
+                                                    <span class="text-gray-400 text-sm">-</span>
+                                                    <% } %>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                            <% } else { %>
+                                            <tr>
+                                                <td colspan="6" class="py-4 text-center text-gray-500">
+                                                    Belum ada pengajuan cuti
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Modal Cancel Pengajuan Cuti -->
+                            <div id="cancel-modal"
+                                 class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 transition-opacity duration-300">
+                                <div id="cancel-modal-content"
+                                     class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-10 transform scale-95 opacity-0 transition-all duration-300">
+                                    <!-- Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button id="close-cancel-modal"
+                                                class="text-gray-500 hover:text-gray-700 text-3xl">&larr;</button>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <h3 class="text-3xl font-bold text-center text-black mb-4">
+                                        Pembatalan Pengajuan Cuti Tahunan
+                                    </h3>
+
+                                    <!-- Form Cancel -->
+                                    <!-- Action akan di-set secara dinamis melalui JavaScript -->
+                                    <form id="cancelForm" method="post" class="mt-6 space-y-6">
+                                        <button type="submit"
+                                                class="w-full py-4 bg-red-600 text-white rounded-xl text-xl font-bold hover:bg-red-700">
+                                            Batalkan Pengajuan
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <script>
+                                const cancelModal = document.getElementById('cancel-modal');
+                                const cancelModalContent = document.getElementById('cancel-modal-content');
+                                const openCancelModalButtons = document.querySelectorAll('.open-cancel-modal');
+                                const closeCancelModalBtn = document.getElementById('close-cancel-modal');
+                                const cancelForm = document.getElementById('cancelForm');
+
+                                function openCancelModal(id) {
+                                    cancelForm.action = '/cancel/' + id;
+                                    cancelModal.classList.remove('hidden');
+                                    setTimeout(() => {
+                                        cancelModal.classList.add('opacity-100');
+                                        cancelModalContent.classList.add('scale-100', 'opacity-100');
+                                    }, 10);
+                                }
+
+                                function closeCancelModal() {
+                                    console.log('closeCancelModal terpanggil');
+                                    cancelModal.classList.remove('opacity-100');
+                                    cancelModalContent.classList.remove('scale-100', 'opacity-100');
+                                    setTimeout(() => {
+                                        cancelModal.classList.add('hidden');
+                                    }, 300);
+                                }
+
+                                // Attach event listeners
+                                document.querySelectorAll('.open-cancel-modal').forEach(btn => {
+                                    btn.addEventListener('click', (e) => {
+                                        e.preventDefault();
+                                        const id = e.currentTarget.getAttribute('data-id');
+                                        openCancelModal(id);
+                                    });
+                                });
+
+                                closeCancelModalBtn.addEventListener('click', closeCancelModal);
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
+</body>
+</html>

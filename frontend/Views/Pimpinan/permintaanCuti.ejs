@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/output.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 font-poppins">
+    <!-- Modal -->
+    <div id="confirmationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="text-center mb-6">
+                <h2 class="text-xl font-semibold mb-4">Apakah Anda menyetujui Permohonan Cuti</h2>
+                <p class="text-lg font-medium mb-2" id="modalEmployeeName"></p>
+            </div>
+            <div class="flex justify-center space-x-4">
+                <button onclick="handleResponse('tolak')" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+                    Tolak
+                </button>
+                <button onclick="handleResponse('setuju')" class="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                    Setujui
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <header class="bg-white shadow">
+        <div class="border-b border-gray-100">
+            <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <!-- Logo Section -->
+                    <div class="flex items-center w-1/4">
+                        <img src="../Logo PPSDM.png" alt="Logo BMKG" class="h-10 mr-4">
+                        <h1 class="text-2xl font-bold text-gray-900">PPSDM MKG</h1>
+                    </div>
+
+                    <!-- Navigation Links - Centered -->
+                    <nav class="hidden md:flex justify-center space-x-12 w-2/4">
+                        <a href="/pimpinan/dashboard" 
+                           class="font-medium text-base transition-colors duration-200 <%= title === 'Dashboard' ? 'text-teal-500' : 'text-gray-900 hover:text-teal-500' %>">
+                            Dashboard
+                        </a>
+                        <a href="/pimpinan/permintaan" 
+                           class="font-medium text-base transition-colors duration-200 <%= title === 'Permintaan' ? 'text-teal-500' : 'text-gray-900 hover:text-teal-500' %>">
+                            Permintaan
+                        </a>
+                    </nav>
+
+                    <!-- Right Section - Profile & Notification -->
+                    <div class="flex items-center justify-end space-x-4 w-1/4">
+                        <!-- Notification Button -->
+                        <a href="/notifikasi" class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-dot">
+                                <path d="M19.4 14.9C20.2 16.4 21 17 21 17H3s3-2 3-9c0-3.3 2.7-6 6-6 .7 0 1.3.1 1.9.3"/>
+                                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+                                <circle cx="18" cy="8" r="3"/>
+                            </svg>
+                        </a>
+
+                        <!-- Profile Dropdown -->
+                        <div class="hs-dropdown relative inline-flex">
+                            <button id="hs-dropdown-custom-trigger" type="button" class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 transition-colors duration-200">
+                                <img class="w-8 h-8 rounded-full object-cover" src="/profile.png" alt="Profile">
+                                <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6"/>
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-44 bg-white shadow-md rounded-lg p-2 mt-2">
+                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/profil">Profil</a>
+                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/faq">FaQ</a>
+                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/ubah">Ubah Password</a>
+                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/riwayat">Riwayat Ujian</a>
+                                <button type="submit" class="w-full flex justify-center items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-red-800 hover:bg-red-800 hover:text-white transition-colors duration-200" data-hs-overlay="#hs-sign-out-alert">
+                                    Keluar
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" x2="9" y1="12" y2="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Menu Button -->
+                        <button type="button" class="md:hidden hs-collapse-toggle p-2 inline-flex justify-center items-center rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 transition-colors duration-200" data-hs-collapse="#navbar-mobile-collapse" aria-controls="navbar-mobile-collapse" aria-label="Toggle navigation">
+                            <svg class="hs-collapse-open:hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="3" x2="21" y1="6" y2="6"/>
+                                <line x1="3" x2="21" y1="12" y2="12"/>
+                                <line x1="3" x2="21" y1="18" y2="18"/>
+                            </svg>
+                            <svg class="hs-collapse-open:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18"/>
+                                <path d="m6 6 12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu -->
+                <div id="navbar-mobile-collapse" class="hidden md:hidden">
+                    <div class="py-4 space-y-4">
+                        <a href="/ktu/dashboard" 
+                           class="block py-2 px-3 rounded-lg font-medium transition-colors duration-200 <%= title === 'Dashboard' ? 'text-teal-500 bg-gray-50' : 'text-gray-800 hover:bg-gray-100' %>">
+                            Dashboard
+                        </a>
+                        <a href="/ktu/datapegawai" 
+                           class="block py-2 px-3 rounded-lg font-medium transition-colors duration-200 <%= title === 'Data Pegawai' ? 'text-teal-500 bg-gray-50' : 'text-gray-800 hover:bg-gray-100' %>">
+                            Permintaan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            HSCollapse.autoInit();
+        });
+    </script>
+
+<div class="pt-24 max-w-7xl mx-auto p-6">
+    <h1 class="text-2xl font-semibold mb-6">Data Pengajuan Cuti Pegawai</h1>
+    <div class="overflow-x-auto bg-white shadow rounded-lg">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Pengajuan</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama Pegawai</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Alasan</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Cuti</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% if (leaveRequests && leaveRequests.length > 0) { %>
+            <% leaveRequests.forEach((cuti, index) => { %>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><%= index + 1 %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><%= new Date(cuti.createdAt).toLocaleDateString() %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><%= cuti.nama %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><%= cuti.keterangan %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                  <%= new Date(cuti.tanggal_mulai).toLocaleDateString() %> - 
+                  <%= new Date(cuti.tanggal_selesai).toLocaleDateString() %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 py-1 rounded-full text-xs font-medium <%= cuti.status === 'Disetujui' ? 'bg-green-100 text-green-800' : (cuti.status === 'Ditolak' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800') %>">
+                    <%= cuti.status %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                  <% if (cuti.status === 'Diajukan' || cuti.status === 'Dalam Proses') { %>
+                    <button class="open-response-modal px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600" 
+                            data-id="<%= cuti.id %>" 
+                            data-nama="<%= cuti.nama %>">
+                      Tanggapi
+                    </button>
+                  <% } else { %>
+                    <span class="text-gray-400 text-xs">Tidak ada aksi</span>
+                  <% } %>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="7" class="px-6 py-4 text-center text-gray-500">Belum ada pengajuan cuti</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Response (Approve/Reject) -->
+  <div id="responseModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+      <div class="text-center mb-6">
+        <h2 class="text-xl font-semibold mb-4">Tanggapi Pengajuan Cuti</h2>
+        <p class="text-lg font-medium mb-2" id="modalEmployeeName"></p>
+      </div>
+      <div class="flex justify-center space-x-4">
+        <button onclick="handleResponse('Ditolak')" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Tolak</button>
+        <button onclick="handleResponse('Disetujui')" class="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Setujui</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const responseModal = document.getElementById('responseModal');
+      const modalEmployeeName = document.getElementById('modalEmployeeName');
+      let selectedRequestId = null;
+      
+      // Event listener untuk membuka modal response
+      document.querySelectorAll('.open-response-modal').forEach(button => {
+        button.addEventListener('click', (e) => {
+          selectedRequestId = e.currentTarget.getAttribute('data-id');
+          const employeeName = e.currentTarget.getAttribute('data-nama');
+          modalEmployeeName.textContent = `Pengajuan cuti oleh ${employeeName}`;
+          responseModal.classList.remove('hidden');
+        });
+      });
+      
+      // Fungsi untuk menangani respon (approve/reject)
+      window.handleResponse = function(response) {
+        fetch(`/pimpinan/update/${selectedRequestId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: response })
+        })
+        .then(res => res.json())
+        .then(data => {
+          Swal.fire({
+            title: response === 'Disetujui' ? 'Disetujui!' : 'Ditolak!',
+            text: data.message || "Status pengajuan cuti telah diperbarui.",
+            icon: response === 'Disetujui' ? 'success' : 'error',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            location.reload();
+          });
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          Swal.fire({
+            title: "Error",
+            text: "Terjadi kesalahan saat memperbarui status.",
+            icon: "error",
+            confirmButtonText: "OK"
+          });
+        });
+      }
+      
+      // Tutup modal jika klik di luar konten modal
+      responseModal.addEventListener('click', (e) => {
+        if (e.target === responseModal) {
+          responseModal.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+  <script src="/preline.js"></script>
+</body>
+</html>
