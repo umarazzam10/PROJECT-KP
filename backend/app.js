@@ -33,6 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../frontend/src/img')));
 app.use(express.static(path.join(__dirname, '../frontend/src/img/icon')));
 app.use(express.static(path.join(__dirname, '../frontend/src')));
+app.use(express.static(path.join(__dirname, '../frontend/src/file')));
 app.use(express.static(path.join(__dirname, "../frontend/node_modules/preline/dist")));
 app.use(express.urlencoded({ extended: true }));
 
@@ -45,6 +46,9 @@ app.set("views", [
     path.join(__dirname, "../frontend/Views"),
 ]);
 
+app.get('/landing', (req, res) => {
+  res.render('landing_page');
+});
 
 const authRouter = require("./routes/authRoutes.js");
 const usersRouter = require('./routes/usersRoutes.js');

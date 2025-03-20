@@ -29,7 +29,7 @@ router.get('/riwayat', verifyTokenAndRole('user'), getPegawaiData,getPermintaan,
 // Route POST untuk mengajukan cuti
 router.post('/apply', verifyTokenAndRole('user'), applyLeave);
 
-router.post('/cancel/:id_permintaan', verifyTokenAndRole('user'), cancelLeave);
+router.post('/cancel/:id_permintaan', verifyTokenAndRole('user'), cancelLeave);[]
 
 
 

@@ -214,26 +214,215 @@ const { Permintaan_Cuti, Sisa_Cuti, Pegawai } = require("../models");
 //     }
 // };
 
+// const applyLeave = async (req, res) => {
+//     try {
+//         const { NIP, applicationYear, requestedDays, jenis_cuti, keterangan } =
+//             req.body;
+
+//         // Cek apakah sudah ada pengajuan cuti yang belum selesai (status Diajukan atau Dalam Proses)
+//         const pendingRequest = await Permintaan_Cuti.findOne({
+//             where: { NIP, status: { [Op.in]: ["Diajukan", "Dalam Proses"] } },
+//         });
+//         if (pendingRequest) {
+//             req.flash(
+//                 "error",
+//                 "Anda sudah memiliki pengajuan cuti yang sedang diproses. Tidak dapat menambah pengajuan baru."
+//             );
+//             return res.redirect("back");
+//         }
+
+//         // Ambil record Sisa_Cuti untuk tahun berjalan (Y) - hak cuti tahun berjalan
+//         const currentEntitlement = await Sisa_Cuti.findOne({
+//             where: { NIP, tahun: applicationYear },
+//         });
+//         // Jika tidak ada record, asumsikan 12 hari
+//         const availableY3 = currentEntitlement
+//             ? currentEntitlement.sisa_cuti
+//             : 12;
+
+//         // Ambil data carry-over dari dua tahun sebelumnya (Y-1 dan Y-2)
+//         const recordY1 = await Sisa_Cuti.findOne({
+//             where: { NIP, tahun: applicationYear - 1 },
+//         });
+//         const recordY2 = await Sisa_Cuti.findOne({
+//             where: { NIP, tahun: applicationYear - 2 },
+//         });
+
+//         // Maksimal yang bisa dipakai dari masing-masing tahun adalah 6 hari untuk carry-over
+//         const availableY1 = recordY1 ? Math.min(recordY1.sisa_cuti, 6) : 0;
+//         const availableY2 = recordY2 ? Math.min(recordY2.sisa_cuti, 6) : 0;
+
+//         // Total potensi yang tersedia
+//         const totalAvailable = availableY3 + availableY1 + availableY2;
+
+//         // Jika dan hanya jika sisa cuti di 2 tahun sebelumnya masing-masing utuh (≥12),
+//         // maka jatah cuti yang dapat dipakai di tahun berjalan adalah 24,
+//         // jika tidak, maksimal yang bisa dipakai adalah minimum(totalAvailable, 18).
+//         let totalPotential;
+//         if (
+//             recordY1 &&
+//             recordY2 &&
+//             recordY1.sisa_cuti >= 12 &&
+//             recordY2.sisa_cuti >= 12
+//         ) {
+//             totalPotential = 24;
+//         } else {
+//             totalPotential = Math.min(totalAvailable, 18);
+//         }
+
+//         // Ambil pengajuan cuti yang disetujui pada tahun berjalan untuk menghitung penggunaan
+//         const approvedLeaves = await Permintaan_Cuti.findAll({
+//             where: {
+//                 NIP,
+//                 status: "Disetujui",
+//                 tanggal_mulai: {
+//                     [Op.between]: [
+//                         new Date(applicationYear, 0, 1),
+//                         new Date(applicationYear, 11, 31),
+//                     ],
+//                 },
+//             },
+//         });
+
+//         let usedDays = 0;
+//         approvedLeaves.forEach((request) => {
+//             const start = new Date(request.tanggal_mulai);
+//             const end = new Date(request.tanggal_selesai);
+//             const diffDays =
+//                 Math.ceil(
+//                     (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+//                 ) + 1;
+//             usedDays += diffDays;
+//         });
+
+//         // Validasi tambahan: jika requestedDays melebihi sisa cuti yang tersedia (totalPotential - usedDays)
+//         const remainingLeave = totalPotential - usedDays;
+//         if (requestedDays > remainingLeave) {
+//             req.flash(
+//                 "error",
+//                 `Pengajuan cuti melebihi sisa cuti yang tersedia. Sisa cuti Anda adalah ${remainingLeave} hari.`
+//             );
+//             return res.redirect("back");
+//         }
+
+//         // Selain itu, validasi jika pengajuan melebihi batas maksimal penggunaan (maxUsable)
+//         let maxUsable;
+//         if (
+//             recordY1 &&
+//             recordY2 &&
+//             recordY1.sisa_cuti >= 12 &&
+//             recordY2.sisa_cuti >= 12
+//         ) {
+//             maxUsable = 24;
+//         } else {
+//             maxUsable = Math.min(totalAvailable, 18);
+//         }
+//         if (requestedDays > maxUsable) {
+//             req.flash(
+//                 "error",
+//                 `Pengajuan cuti melebihi batas maksimal penggunaan. Maksimal yang dapat dipakai tahun ini adalah ${maxUsable} hari.`
+//             );
+//             return res.redirect("back");
+//         }
+
+//         // Alokasikan penggunaan cuti berdasarkan prioritas:
+//         // Pertama dari carry-over dua tahun sebelumnya (Y-2), lalu Y-1, kemudian hak tahun berjalan.
+//         let remaining = requestedDays;
+//         let usedY2 = Math.min(remaining, availableY2);
+//         remaining -= usedY2;
+//         let usedY1 = Math.min(remaining, availableY1);
+//         remaining -= usedY1;
+//         let usedCurrent = remaining; // sisanya dari hak tahun berjalan
+
+//         // Catat informasi alokasi untuk referensi
+//         const allocationInfo = `Penggunaan: ${usedY2} hari dari ${
+//             applicationYear - 2
+//         }, ${usedY1} hari dari ${
+//             applicationYear - 1
+//         }, ${usedCurrent} hari dari ${applicationYear}.`;
+
+//         // Validasi tanggal: pastikan tanggal selesai tidak lebih kecil dari tanggal mulai
+//         const startDate = req.body.tanggal_mulai
+//             ? new Date(req.body.tanggal_mulai)
+//             : new Date(applicationYear, 0, 1);
+//         const endDate = req.body.tanggal_selesai
+//             ? new Date(req.body.tanggal_selesai)
+//             : new Date(
+//                   startDate.getTime() +
+//                       (requestedDays - 1) * 24 * 60 * 60 * 1000
+//               );
+
+//         if (endDate < startDate) {
+//             req.flash(
+//                 "error",
+//                 "Tanggal selesai cuti tidak boleh lebih kecil dari tanggal mulai."
+//             );
+//             return res.redirect("back");
+//         }
+//         // const actualDays =
+//         //     Math.ceil(
+//         //         (endDate.getTime() - startDate.getTime()) /
+//         //             (1000 * 60 * 60 * 24)
+//         //     ) + 1;
+//         // if (requestedDays !== actualDays) {
+//         //     req.flash(
+//         //         "error",
+//         //         `Tidak bisa mengajukan tanggal cuti sebelum hari ini.`
+//         //     );
+//         //     return res.redirect("back");
+//         // }
+//         const today = new Date();
+//         today.setHours(0, 0, 0, 0);
+//         if (startDate < today) {
+//             req.flash("error", "Tanggal mulai cuti tidak boleh sebelum hari ini.");
+//             return res.redirect("back");
+//         }
+//         // Buat record pengajuan cuti baru dengan status "Diajukan"
+//         await Permintaan_Cuti.create({
+//             NIP,
+//             tanggal_mulai: startDate,
+//             tanggal_selesai: endDate,
+//             status: "Diajukan",
+//             jenis_cuti,
+//             keterangan: `${keterangan}`,
+//             sisa_cuti_dipakai: usedY2 + usedY1,
+//             timestamps: true,
+//         });
+
+//         req.flash("success", "Pengajuan cuti berhasil diajukan.");
+//         return res.redirect("/");
+//     } catch (error) {
+//         console.error("Error applying leave:", error);
+//         req.flash("error", "Terjadi kesalahan saat pengajuan cuti.");
+//         return res.redirect("back");
+//     }
+// };
+
 const applyLeave = async (req, res) => {
     try {
         const { NIP, applicationYear, requestedDays, jenis_cuti, keterangan } =
             req.body;
 
-                    const pendingRequest = await Permintaan_Cuti.findOne({
+        // Cek apakah sudah ada pengajuan cuti yang belum selesai (status Diajukan atau Dalam Proses)
+        const pendingRequest = await Permintaan_Cuti.findOne({
             where: { NIP, status: { [Op.in]: ["Diajukan", "Dalam Proses"] } },
         });
         if (pendingRequest) {
-           req.flash(
+            req.flash(
                 "error",
-                `Anda sudah memiliki pengajuan cuti yang sedang diproses. Tidak dapat menambah pengajuan baru.`
+                "Anda sudah memiliki pengajuan cuti yang sedang diproses. Tidak dapat menambah pengajuan baru."
             );
             return res.redirect("back");
         }
 
-        // Hak cuti tahun berjalan tetap 12 hari.
+        // Ambil record Sisa_Cuti untuk tahun berjalan (Y) - hak cuti tahun berjalan
         const currentEntitlement = await Sisa_Cuti.findOne({
-            where: { NIP, tahun: applicationYear},
-        });;
+            where: { NIP, tahun: applicationYear },
+        });
+        // Jika tidak ada record, asumsikan 12 hari
+        const availableY3 = currentEntitlement
+            ? currentEntitlement.sisa_cuti
+            : 12;
 
         // Ambil data carry-over dari dua tahun sebelumnya (Y-1 dan Y-2)
         const recordY1 = await Sisa_Cuti.findOne({
@@ -243,17 +432,64 @@ const applyLeave = async (req, res) => {
             where: { NIP, tahun: applicationYear - 2 },
         });
 
-        // Efektif carry-over: maksimal yang bisa dipakai per tahun adalah 6 hari, meskipun nilai aslinya bisa lebih tinggi.
+        // Maksimal yang bisa dipakai dari masing-masing tahun adalah 6 hari untuk carry-over
         const availableY1 = recordY1 ? Math.min(recordY1.sisa_cuti, 6) : 0;
         const availableY2 = recordY2 ? Math.min(recordY2.sisa_cuti, 6) : 0;
-        const availableY3 = currentEntitlement ? currentEntitlement.sisa_cuti : 0;
 
-        // Total potensi yang tersedia = hak tahun berjalan + carry-over
+        // Total potensi yang tersedia
         const totalAvailable = availableY3 + availableY1 + availableY2;
 
         // Jika dan hanya jika sisa cuti di 2 tahun sebelumnya masing-masing utuh (≥12),
         // maka jatah cuti yang dapat dipakai di tahun berjalan adalah 24,
         // jika tidak, maksimal yang bisa dipakai adalah minimum(totalAvailable, 18).
+        let totalPotential;
+        if (
+            recordY1 &&
+            recordY2 &&
+            recordY1.sisa_cuti >= 12 &&
+            recordY2.sisa_cuti >= 12
+        ) {
+            totalPotential = 24;
+        } else {
+            totalPotential = Math.min(totalAvailable, 18);
+        }
+
+        // Ambil pengajuan cuti yang disetujui pada tahun berjalan untuk menghitung penggunaan
+        const approvedLeaves = await Permintaan_Cuti.findAll({
+            where: {
+                NIP,
+                status: "Disetujui",
+                tanggal_mulai: {
+                    [Op.between]: [
+                        new Date(applicationYear, 0, 1),
+                        new Date(applicationYear, 11, 31),
+                    ],
+                },
+            },
+        });
+
+        let usedDays = 0;
+        approvedLeaves.forEach((request) => {
+            const start = new Date(request.tanggal_mulai);
+            const end = new Date(request.tanggal_selesai);
+            const diffDays =
+                Math.ceil(
+                    (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+                ) + 1;
+            usedDays += diffDays;
+        });
+
+        // Validasi tambahan: jika requestedDays melebihi sisa cuti yang tersedia (totalPotential - usedDays)
+        const remainingLeave = totalPotential - usedDays;
+        if (requestedDays > remainingLeave) {
+            req.flash(
+                "error",
+                `Pengajuan cuti melebihi sisa cuti yang tersedia. Sisa cuti Anda adalah ${remainingLeave} hari.`
+            );
+            return res.redirect("back");
+        }
+
+        // Selain itu, validasi jika pengajuan melebihi batas maksimal penggunaan (maxUsable)
         let maxUsable;
         if (
             recordY1 &&
@@ -265,7 +501,6 @@ const applyLeave = async (req, res) => {
         } else {
             maxUsable = Math.min(totalAvailable, 18);
         }
-
         if (requestedDays > maxUsable) {
             req.flash(
                 "error",
@@ -279,30 +514,41 @@ const applyLeave = async (req, res) => {
         let remaining = requestedDays;
         let usedY2 = Math.min(remaining, availableY2);
         remaining -= usedY2;
-
         let usedY1 = Math.min(remaining, availableY1);
         remaining -= usedY1;
-
         let usedCurrent = remaining; // sisanya dari hak tahun berjalan
 
-        // Catat informasi alokasi untuk referensi (informasi ini dicantumkan di keterangan pengajuan)
+        // Catat informasi alokasi untuk referensi
         const allocationInfo = `Penggunaan: ${usedY2} hari dari ${
             applicationYear - 2
         }, ${usedY1} hari dari ${
             applicationYear - 1
         }, ${usedCurrent} hari dari ${applicationYear}.`;
 
-        // Tentukan tanggal_mulai dan tanggal_selesai jika tidak diberikan.
+        // Validasi tanggal: pastikan tanggal selesai tidak lebih kecil dari tanggal mulai
         const startDate = req.body.tanggal_mulai
             ? new Date(req.body.tanggal_mulai)
             : new Date(applicationYear, 0, 1);
         const endDate = req.body.tanggal_selesai
             ? new Date(req.body.tanggal_selesai)
             : new Date(
-                startDate.getTime() +
+                  startDate.getTime() +
                       (requestedDays - 1) * 24 * 60 * 60 * 1000
-            );
+              );
 
+        if (endDate < startDate) {
+            req.flash(
+                "error",
+                "Tanggal selesai cuti tidak boleh lebih kecil dari tanggal mulai."
+            );
+            return res.redirect("back");
+        }
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (startDate < today) {
+            req.flash("error", "Tanggal mulai cuti tidak boleh sebelum hari ini.");
+            return res.redirect("back");
+        }
         // Buat record pengajuan cuti baru dengan status "Diajukan"
         await Permintaan_Cuti.create({
             NIP,
@@ -310,9 +556,9 @@ const applyLeave = async (req, res) => {
             tanggal_selesai: endDate,
             status: "Diajukan",
             jenis_cuti,
-            keterangan: `${keterangan}`,
+            keterangan,
             sisa_cuti_dipakai: usedY2 + usedY1,
-            timestamps: true
+            timestamps: true,
         });
 
         req.flash("success", "Pengajuan cuti berhasil diajukan.");
@@ -323,6 +569,20 @@ const applyLeave = async (req, res) => {
         return res.redirect("back");
     }
 };
+
+/**
+ * Helper function untuk menghitung jumlah weekday (Senin - Jumat) secara inklusif
+ */
+function countWeekdays(startDate, endDate) {
+    let count = 0;
+    const current = new Date(startDate);
+    while (current <= endDate) {
+        const day = current.getDay(); // 0: Minggu, 6: Sabtu
+        if (day !== 0 && day !== 6) count++;
+        current.setDate(current.getDate() + 1);
+    }
+    return count;
+}
 
 const getRemainingLeave = async (req, res, next) => {
     try {
@@ -363,7 +623,7 @@ const getRemainingLeave = async (req, res, next) => {
             where: { NIP: pegawai.NIP, tahun: currentYear - 2 },
         });
         const recordY3 = await Sisa_Cuti.findOne({
-            where: { NIP: pegawai.NIP, tahun: currentYear},
+            where: { NIP: pegawai.NIP, tahun: currentYear },
         });
 
         // Efektif carry-over: maksimal yang dapat dipakai per tahun adalah 6 hari
@@ -450,17 +710,37 @@ const getPermintaan = async (req, res, next) => {
 const getPermintaanAll = async (req, res, next) => {
     try {
         const leaveRequests = await Permintaan_Cuti.findAll({
-          // Jika ingin mengambil semua data permintaan
-          order: [['createdAt', 'DESC']]
+            // Jika ingin mengambil semua data permintaan
+            order: [["createdAt", "DESC"]],
+            include: [{ model: Pegawai, attributes: ["nama"] }],
+            group: ["Permintaan_Cuti.id"], // pastikan hanya satu baris per pengajuan
         });
         req.leaveRequests = leaveRequests;
         next();
-      } catch (error) {
+    } catch (error) {
         next(error);
-      }
+    }
 };
 
-
+const getPermintaanAllAggree = async (req, res, next) => {
+    try {
+        const today = new Date();
+        const leaveRequests = await Permintaan_Cuti.findAll({
+            where: {
+                status: ["disetujui", "diajukan"],
+                // Tampilkan hanya yang belum dimulai (tanggal_mulai > hari ini)
+                tanggal_mulai: { [Op.gt]: today },
+            },
+            order: [["createdAt", "DESC"]],
+            include: [{ model: Pegawai, attributes: ["nama"] }],
+            group: ["Permintaan_Cuti.id"],
+        });
+        req.leaveRequests = leaveRequests;
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
 
 const cancelLeave = async (req, res) => {
     try {
@@ -501,5 +781,6 @@ module.exports = {
     cancelLeave,
     getRemainingLeave,
     getPegawaiDataAll,
-    getPermintaanAll
+    getPermintaanAll,
+    getPermintaanAllAggree,
 };
