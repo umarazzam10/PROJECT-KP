@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> - KTU</title>
     <link href="../output.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/preline/2.0.3/preline.min.js"></script>
 </head>
 <body class="font-poppins">
@@ -60,10 +61,7 @@
 
                             <!-- Dropdown Menu -->
                             <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-44 bg-white shadow-md rounded-lg p-2 mt-2">
-                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/profil">Profil</a>
-                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/faq">FaQ</a>
                                 <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/ubah">Ubah Password</a>
-                                <a class="flex gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200" href="/riwayat">Riwayat Ujian</a>
                                 <button type="submit" class="w-full flex justify-center items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-red-800 hover:bg-red-800 hover:text-white transition-colors duration-200" data-hs-overlay="#hs-sign-out-alert">
                                     Keluar
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
@@ -114,7 +112,6 @@
             </div>
         </div>
     </header>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             HSCollapse.autoInit();

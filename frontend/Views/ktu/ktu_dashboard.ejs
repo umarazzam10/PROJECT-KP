@@ -9,7 +9,7 @@
                     <img src="..\contact-2.png" alt="Icon" class="w-16 h-16" />
                   </div>
                   <div>
-                      <h2 class="text-4xl font-bold">3 Pegawai</h2>
+                      <h2 class="text-4xl font-bold"><%= employeeOnLeaveCount %> Pegawai</h2>
                       <p class="text-lg">Sedang Melakukan Cuti</p>
                   </div>
               </div>
@@ -20,8 +20,8 @@
                     <img src="..\square-equal.png" alt="Icon" class="w-16 h-16" />
                   </div>
                   <div>
-                      <h2 class="text-4xl font-bold">20 Pegawai</h2>
-                      <p class="text-lg">Melakukan Cuti Bulan Ini</p>
+                      <h2 class="text-4xl font-bold"><%= pendingCount %> Pegawai</h2>
+                      <p class="text-lg">Mengajukan Cuti</p>
                   </div>
               </div>
           </div>
@@ -45,57 +45,49 @@
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4">1</td>
-                        <td class="px-6 py-4">Mashella Tobing</td>
-                        <td class="px-6 py-4">20 Januari 2025</td>
-                        <td class="px-6 py-4 text-center">
-                          <button type="button" class="p-2 bg-teal-500 rounded-lg text-white hover:bg-teal-700 focus:outline-none focus:bg-teal-700 disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-medium-modal" data-hs-overlay="#hs-medium-modal">
-                            <img src="..\file-terminal.png" alt="Icon"/>
-                          </button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4">2</td>
-                        <td class="px-6 py-4">Taylor Swift</td>
-                        <td class="px-6 py-4">14 Januari 2025</td>
-                        <td class="px-6 py-4 text-center">
-                          <button type="button" class="p-2 bg-teal-500 rounded-lg text-white hover:bg-teal-700 focus:outline-none focus:bg-teal-700 disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-medium-modal" data-hs-overlay="#hs-medium-modal">
-                            <img src="..\file-terminal.png" alt="Icon"/>
-                          </button>
-                          <div id="hs-medium-modal" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-medium-modal-label">
-                            <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all md:max-w-2xl md:w-full m-3 md:mx-auto">
-                              <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
-                                <div class="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700">
-                                  <h3 id="hs-medium-modal-label" class="font-bold text-gray-800 dark:text-white">
-                                    Surat Persetujuan Cuti
-                                  </h3>
-                                  <button type="button" class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600" aria-label="Close" data-hs-overlay="#hs-medium-modal">
-                                    <span class="sr-only">Close</span>
-                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </button>
-                                </div>
-                                <div class="p-4 overflow-y-auto">
-                                  <iframe src="..\src\file\Cuti.pdf" width="100%" height="500px" class="border-0"></iframe>
+                    <% if (employeesOnLeave && employeesOnLeave.length > 0) { %>
+                      <% employeesOnLeave.forEach((cuti, index) => { %>
+                        <tr class="hover:bg-gray-50">
+                          <td class=" px-6 py-4"><%= index + 1 %></td>
+                          <td class=" px-6 py-4"><%= cuti.Pegawai.nama %></td>
+                          <td class=" px-6 py-4">
+                            <%= new Date(cuti.tanggal_selesai).toLocaleDateString() %>
+                          </td>
+                          <td class="px-6 py-4 text-center">
+                            <button type="button" class="p-2 bg-teal-500 rounded-lg text-white hover:bg-teal-700 focus:outline-none focus:bg-teal-700 disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-medium-modal" data-hs-overlay="#hs-medium-modal">
+                              <img src="..\file-terminal.png" alt="Icon"/>
+                            </button>
+                            <div id="hs-medium-modal" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-medium-modal-label">
+                              <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all md:max-w-2xl md:w-full m-3 md:mx-auto">
+                                <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
+                                  <div class="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700">
+                                    <h3 id="hs-medium-modal-label" class="font-bold text-gray-800 dark:text-white">
+                                      Surat Persetujuan Cuti
+                                    </h3>
+                                    <button type="button" class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600" aria-label="Close" data-hs-overlay="#hs-medium-modal">
+                                      <span class="sr-only">Close</span>
+                                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </button>
+                                  </div>
+                                  <div class="p-4 overflow-y-auto">
+                                    <iframe src="\Cuti.pdf" width="100%" height="500px" class="border-0"></iframe>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4">3</td>
-                        <td class="px-6 py-4">Ben Antonio</td>
-                        <td class="px-6 py-4">14 Januari 2025</td>
-                        <td class="px-6 py-4 text-center">
-                          <button type="button" class="p-2 bg-teal-500 rounded-lg text-white hover:bg-teal-700 focus:outline-none focus:bg-teal-700 disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-medium-modal" data-hs-overlay="#hs-medium-modal">
-                            <img src="..\file-terminal.png" alt="Icon"/>
-                          </button>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="3" class="px-4 py-2 text-center text-gray-500">
+                          Belum ada pegawai yang sedang cuti
                         </td>
                       </tr>
+                    <% } %>
                   </tbody>
                 </table>
                 

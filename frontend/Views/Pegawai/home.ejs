@@ -80,7 +80,7 @@
                             <li>
                                 <a
                                     href="/"
-                                    class="nav-link text-gray-600 hover:text-orange-700 font-medium transition-colors duration-200 text-orange-500 text-gray-900"
+                                    class="nav-link text-gray-600 hover:text-gray-800 font-medium transition-colors duration-200 text-teal-500 text-gray-900 "
                                 >
                                     Home
                                 </a>
@@ -88,7 +88,7 @@
                             <li>
                                 <a
                                     href="/riwayat"
-                                    class="nav-link text-gray-600 hover:text-orange-500 font-medium transition-colors duration-200"
+                                    class="nav-link text-gray-600 hover:text-teal-500 hover:bg-gray-100 font-medium transition-colors duration-200"
                                 >
                                     Riwayat
                                 </a>
@@ -101,7 +101,7 @@
                         <!-- User Welcome (Desktop) -->
                         <div class="hidden md:flex flex-col text-right">
                             <span class="text-gray-500 text-sm">Welcome,</span>
-                            <span class="text-orange-500 text-sm font-medium"
+                            <span class="text-teal-500 text-sm font-medium"
                                 ><%= user.nama %></span
                             >
                         </div>
@@ -139,7 +139,7 @@
                                 <a
                                     href="#profile"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    >Profile</a
+                                    >Ubah Password</a
                                 >
                                 <form action="/auth/logout" method="post">
                                     <button
@@ -201,7 +201,7 @@
                         </a>
                         <div class="px-3 py-2 border-t border-gray-200 mt-2">
                             <p class="text-sm text-gray-500">Signed in as</p>
-                            <p class="text-sm font-medium text-orange-500">
+                            <p class="text-sm font-medium text-teal-500">
                                 <%= user.nama %>
                             </p>
                         </div>
@@ -229,13 +229,13 @@
         </section>
 
         <!-- Main Content with improved layout -->
-        <main class="container mx-auto px-12 py-24">
+        <main class="container mx-auto px-12 py-14">
             <div
                 class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto"
             >
                 <!-- Left side - Leave Balance Box -->
                 <div class="w-full md:w-1/3">
-                    <div class="bg-white rounded-xl p-20 shadow-md">
+                    <div class="bg-white rounded-xl border p-20 shadow-[10px_10px_10px_0px_rgba(0,0,0,0.15)]">
                         <div class="text-center">
                             <p
                                 class="text-2xl text-gray-800 font-semibold mb-4"
@@ -255,19 +255,27 @@
                     class="w-full md:w-2/3 flex flex-col items-center justify-center"
                 >
                     <div class="text-center">
-                        <h2 class="text-3xl text-gray-800 font-semibold mb-3">
-                            Anda Masih Memiliki Jatah Cuti
-                        </h2>
-                        <h2 class="text-3xl text-gray-800 font-semibold mb-8">
-                            Silahkan Diajukan
-                        </h2>
-                        <!-- Button to Open Modal -->
-                        <button
+                        <% if (remainingLeave > 0) { %>
+                            <h2 class="text-3xl text-gray-800 font-semibold mb-3">
+                              Anda Masih Memiliki Jatah Cuti
+                            </h2>
+                            <h2 class="text-3xl text-gray-800 font-semibold mb-8">
+                                Silahkan Diajukan
+                            </h2>
+                            <button
                             id="open-modal"
                             class="px-12 py-4 bg-orange-500 text-white rounded-lg text-xl font-medium hover:bg-orange-600 transition-colors"
                         >
                             Ajukan Cuti
                         </button>
+                          <% } else { %>
+                            <h2 class="text-3xl text-gray-800 font-semibold mb-3">
+                              Jatah Cuti Anda Sudah Habis
+                            </h2>
+                          <% } %>
+
+                        <!-- Button to Open Modal -->
+
 
                         <!-- Modal Form Pengajuan Cuti -->
                         <div
@@ -385,7 +393,7 @@
             </div>
 
             <!-- Leave Status Table -->
-            <div class="bg-white rounded-xl mt-8 p-6 shadow-md">
+            <div class="bg-white rounded-xl mt-24 p-6 shadow-md">
                 <h3 class="text-xl font-semibold mb-6">
                     Status Pengajuan Cuti
                 </h3>
@@ -530,6 +538,18 @@
                     const diffDays =
                         Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
                     // Set nilai hidden field requestedDays
+
+                    if(diffDays < 0){
+                        e.preventDefault();
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Tanggal selesai cuti tidak boleh lebih awal dari tanggal mulai cuti',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        document.getElementById("requestedDays").value = diffDays;
+                    }
                     document.getElementById("requestedDays").value = diffDays;
                 });
         </script>
